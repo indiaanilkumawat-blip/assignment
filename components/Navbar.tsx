@@ -32,8 +32,8 @@ export default function Navbar() {
       {/* Top bar */}
       <div style={{ background: 'var(--primary)', color: 'white', fontSize: 13, padding: '6px 0' }}>
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-          <span>📞 +91-9352555548</span>
-          <span>✉️ contact@theassignmenthub.com</span>
+          <span>📞 +91-7357274693</span>
+          <span>✉️ contact.assignmenthub1@gmail.com</span>
           <span className="hidden md:block">🎓 3.5M+ Assignments Delivered | 4.8★ Rated</span>
         </div>
       </div>

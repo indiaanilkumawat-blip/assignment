@@ -115,7 +115,7 @@ export default function HomePage() {
                     className="hover:scale-105">
                     Get Help Now →
                   </Link>
-                  <a href="https://api.whatsapp.com/send/?phone=919352555548" target="_blank" rel="noopener noreferrer" style={{
+                  <a href="https://api.whatsapp.com/send/?phone=917357274693" target="_blank" rel="noopener noreferrer" style={{
                     display: 'inline-flex', alignItems: 'center', gap: 8,
                     padding: '15px 32px', borderRadius: 12, fontWeight: 600, fontSize: 16,
                     background: '#25d366', color: 'white', textDecoration: 'none',
@@ -323,7 +323,7 @@ export default function HomePage() {
               }}>
                 📋 Get Help Now
               </Link>
-              <a href="https://api.whatsapp.com/send/?phone=919352555548" target="_blank" rel="noopener noreferrer" style={{
+              <a href="https://api.whatsapp.com/send/?phone=917357274693" target="_blank" rel="noopener noreferrer" style={{
                 display: 'inline-block', padding: '16px 40px', borderRadius: 12,
                 fontWeight: 600, fontSize: 16, background: 'rgba(255,255,255,0.15)',
                 color: 'white', textDecoration: 'none', border: '1.5px solid rgba(255,255,255,0.3)',
@@ -416,7 +416,7 @@ export default function HomePage() {
       <Footer />
 
       {/* Floating WhatsApp */}
-      <a href="https://api.whatsapp.com/send/?phone=919352555548" target="_blank" rel="noopener noreferrer" style={{
+      <a href="https://api.whatsapp.com/send/?phone=917357274693" target="_blank" rel="noopener noreferrer" style={{
         position: 'fixed', bottom: 24, right: 24, zIndex: 100,
         width: 56, height: 56, borderRadius: '50%', background: '#25d366',
         display: 'flex', alignItems: 'center', justifyContent: 'center',

@@ -51,11 +51,11 @@ export default function Footer() {
           <div>
             <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', opacity: 0.5, marginBottom: 16 }}>Contact</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <a href="tel:+919352555548" style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: 14 }}>
-                <span style={{ fontSize: 18 }}>📞</span> +91-9352555548
+              <a href="tel:+917357274693" style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: 14 }}>
+                <span style={{ fontSize: 18 }}>📞</span> +91-7357274693
               </a>
-              <a href="mailto:contact@theassignmenthub.com" style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: 14 }}>
-                <span style={{ fontSize: 18 }}>✉️</span> contact@theassignmenthub.com
+              <a href="mailto:contact.assignmenthub1@gmail.com" style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: 14 }}>
+                <span style={{ fontSize: 18 }}>✉️</span> contact.assignmenthub1@gmail.com
               </a>
               <div style={{ marginTop: 12, padding: '14px 16px', background: 'rgba(255,255,255,0.08)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.15)' }}>
                 <div style={{ fontSize: 12, opacity: 0.6, marginBottom: 4 }}>Managed by</div>

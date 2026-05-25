@@ -58,8 +58,8 @@ export default function ContactPage() {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {[
-                  { icon: '📞', label: 'Phone / WhatsApp', value: '+91-9352555548' },
-                  { icon: '✉️', label: 'Email', value: 'contact@theassignmenthub.com' },
+                  { icon: '📞', label: 'Phone / WhatsApp', value: '+91-7357274693' },
+                  { icon: '✉️', label: 'Email', value: 'contact.assignmenthub1@gmail.com' },
                   { icon: '👤', label: 'Manager', value: 'Anil Kumawat' },
                   { icon: '🕐', label: 'Support Hours', value: '24/7 Available' },
                 ].map((item, i) => (
