@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -43,102 +42,166 @@ export default function ContactPage() {
   return (
     <>
       <Navbar />
-      <main style={{ paddingTop: 100, minHeight: '100vh', background: 'linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%)' }}>
-        <div className="max-w-6xl mx-auto px-4 py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
-            {/* Left info */}
-            <div className="lg:col-span-2">
-              <div className="section-tag mb-5">Submit Inquiry</div>
-              <h1 className="font-playfair" style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: 'var(--primary)', marginBottom: 16 }}>
-                Get Expert Help Today
-              </h1>
-              <p style={{ color: 'var(--text-muted)', fontSize: 16, lineHeight: 1.8, marginBottom: 32 }}>
-                Fill in your assignment details and our expert team will get back to you within minutes.
-              </p>
+      <main style={{ paddingTop: 110, minHeight: '100vh', background: 'var(--bg)' }}>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                {[
-                  { icon: '📞', label: 'Phone / WhatsApp', value: '+91-7357274693' },
-                  { icon: '✉️', label: 'Email', value: 'contact.assignmenthub1@gmail.com' },
-                  { icon: '👤', label: 'Manager', value: 'Anil Kumawat' },
-                  { icon: '🕐', label: 'Support Hours', value: '24/7 Available' },
-                ].map((item, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 18px', background: 'white', borderRadius: 14, border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-                    <span style={{ fontSize: 22 }}>{item.icon}</span>
+        {/* Hero strip */}
+        <div style={{
+          background: 'linear-gradient(135deg, #0f2137 0%, #1a3a5c 100%)',
+          padding: '40px 0 80px', position: 'relative', overflow: 'hidden',
+        }}>
+          <div style={{ position: 'absolute', top: -80, right: -80, width: 320, height: 320, borderRadius: '50%', background: 'rgba(232,160,32,0.08)', filter: 'blur(40px)', pointerEvents: 'none' }} />
+          <div className="max-w-6xl mx-auto px-6 text-center">
+            <div className="section-tag mx-auto mb-5" style={{ color: 'var(--accent)', borderColor: 'rgba(232,160,32,0.4)', background: 'rgba(232,160,32,0.12)' }}>
+              Submit Inquiry
+            </div>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(30px, 4vw, 50px)', fontWeight: 700, color: 'white', marginBottom: 12, letterSpacing: '-0.01em' }}>
+              Get Expert Help Today
+            </h1>
+            <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 16, maxWidth: 500, margin: '0 auto' }}>
+              Fill in your assignment details and our expert team will get back to you within minutes.
+            </p>
+          </div>
+        </div>
+
+        {/* Cards section — pulled up */}
+        <div className="max-w-6xl mx-auto px-6" style={{ marginTop: -40, paddingBottom: 80 }}>
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+
+            {/* Left info */}
+            <div className="lg:col-span-2" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {/* Contact cards */}
+              {[
+                { icon: '📞', label: 'Phone / WhatsApp', value: '+91-7357274693', href: 'tel:+917357274693' },
+                { icon: '✉️', label: 'Email', value: 'contact.assignmenthub1@gmail.com', href: 'mailto:contact.assignmenthub1@gmail.com' },
+                { icon: '👤', label: 'Manager', value: 'Anil Kumawat', href: null },
+                { icon: '🕐', label: 'Support Hours', value: '24/7 Available', href: null },
+              ].map((item, i) => (
+                item.href ? (
+                  <a key={i} href={item.href} style={{
+                    display: 'flex', alignItems: 'center', gap: 14,
+                    padding: '16px 20px', background: 'white', borderRadius: 16,
+                    border: '1.5px solid var(--border)', textDecoration: 'none',
+                    boxShadow: '0 2px 12px rgba(15,33,55,0.05)',
+                    transition: 'border-color 0.2s',
+                  }} className="hover:border-blue-300">
+                    <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--bg)', border: '1.5px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>
+                      {item.icon}
+                    </div>
                     <div>
-                      <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' }}>{item.label}</div>
-                      <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--text)' }}>{item.value}</div>
+                      <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{item.label}</div>
+                      <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginTop: 2 }}>{item.value}</div>
+                    </div>
+                  </a>
+                ) : (
+                  <div key={i} style={{
+                    display: 'flex', alignItems: 'center', gap: 14,
+                    padding: '16px 20px', background: 'white', borderRadius: 16,
+                    border: '1.5px solid var(--border)',
+                    boxShadow: '0 2px 12px rgba(15,33,55,0.05)',
+                  }}>
+                    <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--bg)', border: '1.5px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>
+                      {item.icon}
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{item.label}</div>
+                      <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginTop: 2 }}>{item.value}</div>
                     </div>
                   </div>
+                )
+              ))}
+
+              {/* Why us box */}
+              <div style={{
+                background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%)',
+                borderRadius: 18, padding: '22px 20px', color: 'white', marginTop: 4,
+              }}>
+                <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 14, opacity: 0.7, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Why students choose us</div>
+                {[
+                  '✅ AI-Free, Human-Written Work',
+                  '⏰ On-Time Delivery Guaranteed',
+                  '🔒 100% Confidential',
+                  '🔄 Free Revisions Included',
+                  '📋 Plagiarism-Free Certificate',
+                ].map(b => (
+                  <div key={b} style={{ fontSize: 13, marginBottom: 10, opacity: 0.88, display: 'flex', alignItems: 'center', gap: 4 }}>{b}</div>
                 ))}
               </div>
 
-              <div style={{ marginTop: 24, padding: 20, background: 'var(--primary)', borderRadius: 16, color: 'white' }}>
-                <div style={{ fontSize: 13, opacity: 0.7, marginBottom: 6 }}>Why students choose us:</div>
-                {['✅ AI-Free, Human-Written Work', '⏰ On-Time Delivery Guaranteed', '🔒 100% Confidential', '🔄 Free Revisions Included'].map(b => (
-                  <div key={b} style={{ fontSize: 14, marginBottom: 6, opacity: 0.9 }}>{b}</div>
-                ))}
-              </div>
+              {/* WhatsApp button */}
+              <a href="https://api.whatsapp.com/send/?phone=917357274693" target="_blank" rel="noopener noreferrer"
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+                  padding: '14px 20px', background: '#25d366', borderRadius: 14, color: 'white',
+                  textDecoration: 'none', fontSize: 14, fontWeight: 700,
+                  boxShadow: '0 6px 20px rgba(37,211,102,0.3)',
+                }}>
+                💬 Chat on WhatsApp Now
+              </a>
             </div>
 
             {/* Form */}
             <div className="lg:col-span-3">
-              <div style={{ background: 'white', borderRadius: 24, padding: 36, boxShadow: '0 8px 40px rgba(0,0,0,0.08)', border: '1px solid var(--border)' }}>
+              <div style={{
+                background: 'white', borderRadius: 24, padding: '36px 32px',
+                boxShadow: '0 8px 48px rgba(15,33,55,0.09)', border: '1px solid var(--border)',
+              }}>
                 {success ? (
-                  <div style={{ textAlign: 'center', padding: '40px 20px' }}>
-                    <div style={{ fontSize: 64, marginBottom: 20 }}>✅</div>
-                    <h2 className="font-playfair" style={{ fontSize: 28, fontWeight: 800, color: 'var(--primary)', marginBottom: 12 }}>
+                  <div style={{ textAlign: 'center', padding: '48px 20px' }}>
+                    <div style={{ fontSize: 68, marginBottom: 22 }}>✅</div>
+                    <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, color: 'var(--primary)', marginBottom: 14 }}>
                       Inquiry Submitted!
                     </h2>
-                    <p style={{ color: 'var(--text-muted)', fontSize: 16, marginBottom: 24 }}>
-                      Thank you! We'll contact you within 15 minutes. Check your email or WhatsApp for confirmation.
+                    <p style={{ color: 'var(--text-muted)', fontSize: 15, marginBottom: 28, lineHeight: 1.7 }}>
+                      Thank you! We'll contact you within 15 minutes via WhatsApp or email.
                     </p>
                     <button onClick={() => { setSuccess(false); setForm({ name: '', email: '', phone: '', subject: '', serviceType: '', message: '', deadline: '' }); }}
-                      style={{ padding: '12px 28px', background: 'var(--primary)', color: 'white', border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 600, fontSize: 15 }}>
+                      style={{ padding: '13px 30px', background: 'var(--primary)', color: 'white', border: 'none', borderRadius: 12, cursor: 'pointer', fontWeight: 700, fontSize: 14, fontFamily: 'var(--font-body)' }}>
                       Submit Another Inquiry
                     </button>
                   </div>
                 ) : (
                   <>
-                    <h2 className="font-playfair" style={{ fontSize: 24, fontWeight: 800, color: 'var(--primary)', marginBottom: 6 }}>Tell Us About Your Assignment</h2>
-                    <p style={{ color: 'var(--text-muted)', fontSize: 14, marginBottom: 24 }}>All fields marked * are required</p>
+                    <div style={{ marginBottom: 28 }}>
+                      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, color: 'var(--primary)', marginBottom: 6, letterSpacing: '-0.01em' }}>
+                        Tell Us About Your Assignment
+                      </h2>
+                      <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>All fields marked * are required</p>
+                    </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      {[
+                        { label: 'Full Name *', name: 'name', type: 'text', placeholder: 'Your full name' },
+                        { label: 'Email Address *', name: 'email', type: 'email', placeholder: 'your@email.com' },
+                        { label: 'Phone / WhatsApp *', name: 'phone', type: 'text', placeholder: '+91 XXXXX XXXXX' },
+                        { label: 'Deadline', name: 'deadline', type: 'date', placeholder: '' },
+                      ].map(field => (
+                        <div key={field.name}>
+                          <label style={{ display: 'block', fontWeight: 600, fontSize: 12, color: 'var(--text)', marginBottom: 7, letterSpacing: '0.03em', textTransform: 'uppercase' }}>{field.label}</label>
+                          <input name={field.name} type={field.type} value={(form as Record<string, string>)[field.name]} onChange={handleChange} placeholder={field.placeholder} className="form-input" />
+                        </div>
+                      ))}
+
                       <div>
-                        <label style={{ display: 'block', fontWeight: 600, fontSize: 13, color: 'var(--text)', marginBottom: 6 }}>Full Name *</label>
-                        <input name="name" value={form.name} onChange={handleChange} placeholder="Your full name" className="form-input" />
-                      </div>
-                      <div>
-                        <label style={{ display: 'block', fontWeight: 600, fontSize: 13, color: 'var(--text)', marginBottom: 6 }}>Email Address *</label>
-                        <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="your@email.com" className="form-input" />
-                      </div>
-                      <div>
-                        <label style={{ display: 'block', fontWeight: 600, fontSize: 13, color: 'var(--text)', marginBottom: 6 }}>Phone / WhatsApp *</label>
-                        <input name="phone" value={form.phone} onChange={handleChange} placeholder="+91 XXXXX XXXXX" className="form-input" />
-                      </div>
-                      <div>
-                        <label style={{ display: 'block', fontWeight: 600, fontSize: 13, color: 'var(--text)', marginBottom: 6 }}>Service Type *</label>
+                        <label style={{ display: 'block', fontWeight: 600, fontSize: 12, color: 'var(--text)', marginBottom: 7, letterSpacing: '0.03em', textTransform: 'uppercase' }}>Service Type *</label>
                         <select name="serviceType" value={form.serviceType} onChange={handleChange} className="form-input">
                           <option value="">Select a service</option>
                           {serviceTypes.map(s => <option key={s} value={s}>{s}</option>)}
                         </select>
                       </div>
+
                       <div>
-                        <label style={{ display: 'block', fontWeight: 600, fontSize: 13, color: 'var(--text)', marginBottom: 6 }}>Subject / Topic *</label>
+                        <label style={{ display: 'block', fontWeight: 600, fontSize: 12, color: 'var(--text)', marginBottom: 7, letterSpacing: '0.03em', textTransform: 'uppercase' }}>Subject / Topic *</label>
                         <input name="subject" value={form.subject} onChange={handleChange} placeholder="e.g. Marketing Strategy Essay" className="form-input" />
                       </div>
-                      <div>
-                        <label style={{ display: 'block', fontWeight: 600, fontSize: 13, color: 'var(--text)', marginBottom: 6 }}>Deadline</label>
-                        <input name="deadline" type="date" value={form.deadline} onChange={handleChange} className="form-input" />
-                      </div>
+
                       <div style={{ gridColumn: '1 / -1' }}>
-                        <label style={{ display: 'block', fontWeight: 600, fontSize: 13, color: 'var(--text)', marginBottom: 6 }}>Message / Requirements *</label>
+                        <label style={{ display: 'block', fontWeight: 600, fontSize: 12, color: 'var(--text)', marginBottom: 7, letterSpacing: '0.03em', textTransform: 'uppercase' }}>Message / Requirements *</label>
                         <textarea name="message" value={form.message} onChange={handleChange} rows={5} placeholder="Describe your assignment requirements, word count, referencing style, etc." className="form-input" style={{ resize: 'vertical' }} />
                       </div>
                     </div>
 
                     {error && (
-                      <div style={{ marginTop: 16, padding: '12px 16px', background: '#fee2e2', borderRadius: 10, color: '#dc2626', fontSize: 14 }}>
+                      <div style={{ marginTop: 16, padding: '13px 18px', background: '#fef2f2', borderRadius: 10, color: '#dc2626', fontSize: 13, border: '1px solid #fecaca' }}>
                         ❌ {error}
                       </div>
                     )}
@@ -147,16 +210,19 @@ export default function ContactPage() {
                       onClick={handleSubmit}
                       disabled={loading}
                       style={{
-                        marginTop: 24, width: '100%', padding: '15px', borderRadius: 12,
-                        background: loading ? '#94a3b8' : 'linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)',
-                        color: 'white', border: 'none', fontSize: 16, fontWeight: 700,
+                        marginTop: 26, width: '100%', padding: '16px',
+                        borderRadius: 13, fontFamily: 'var(--font-body)',
+                        background: loading ? '#94a3b8' : 'var(--primary)',
+                        color: 'white', border: 'none', fontSize: 15, fontWeight: 700,
                         cursor: loading ? 'not-allowed' : 'pointer',
-                        transition: 'opacity 0.2s', boxShadow: '0 6px 20px rgba(26,58,92,0.2)',
+                        boxShadow: loading ? 'none' : '0 6px 24px rgba(15,33,55,0.22)',
+                        transition: 'background 0.2s',
+                        letterSpacing: '0.02em',
                       }}
                     >
                       {loading ? '⏳ Submitting...' : '📋 Submit Inquiry →'}
                     </button>
-                    <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--text-muted)', marginTop: 12 }}>
+                    <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--text-muted)', marginTop: 14 }}>
                       🔒 Your information is completely confidential. We respond within 15 minutes.
                     </p>
                   </>
