@@ -6,13 +6,17 @@ export async function POST(req: NextRequest) {
   try {
     await connectDB();
     const body = await req.json();
-    const { name, email, phone, subject, serviceType, message, deadline } = body;
+    const { name, email, phone, subject, serviceType, message, deadline, attachmentId, attachmentName } = body;
 
     if (!name || !email || !phone || !subject || !serviceType || !message) {
       return NextResponse.json({ error: 'All required fields must be filled.' }, { status: 400 });
     }
 
-    const inquiry = await Inquiry.create({ name, email, phone, subject, serviceType, message, deadline });
+    const inquiry = await Inquiry.create({
+      name, email, phone, subject, serviceType, message, deadline,
+      attachmentId: attachmentId || undefined,
+      attachmentName: attachmentName || undefined,
+    });
     return NextResponse.json({ success: true, id: inquiry._id }, { status: 201 });
   } catch (err) {
     console.error(err);

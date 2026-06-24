@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import AdminNav from '@/components/AdminNav';
 
 interface Inquiry {
   _id: string;
@@ -12,6 +13,8 @@ interface Inquiry {
   message: string;
   deadline?: string;
   status: 'new' | 'read' | 'replied';
+  attachmentId?: string;
+  attachmentName?: string;
   createdAt: string;
 }
 
@@ -67,11 +70,6 @@ export default function Dashboard() {
     if (selected?._id === id) setSelected(null);
   };
 
-  const handleLogout = async () => {
-    document.cookie = 'admin_token=; Max-Age=0; path=/';
-    router.push('/admin/login');
-  };
-
   const filtered = inquiries.filter(i => {
     if (filter !== 'all' && i.status !== filter) return false;
     if (search && !i.name.toLowerCase().includes(search.toLowerCase()) && !i.email.toLowerCase().includes(search.toLowerCase()) && !i.subject.toLowerCase().includes(search.toLowerCase())) return false;
@@ -87,24 +85,7 @@ export default function Dashboard() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#f1f5f9', display: 'flex', flexDirection: 'column' }}>
-      {/* Header */}
-      <header style={{ background: 'linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%)', padding: '14px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: '#1a3a5c', fontSize: 18 }}>A</div>
-          <div>
-            <div style={{ fontFamily: 'serif', fontSize: 16, fontWeight: 800, color: 'white' }}>Assignment Hub — Dashboard</div>
-            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)' }}>Welcome back, Anil Kumawat</div>
-          </div>
-        </div>
-        <div style={{ display: 'flex', gap: 10 }}>
-          <button onClick={fetchInquiries} style={{ padding: '8px 16px', background: 'rgba(255,255,255,0.15)', color: 'white', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 8, cursor: 'pointer', fontSize: 13 }}>
-            🔄 Refresh
-          </button>
-          <button onClick={handleLogout} style={{ padding: '8px 16px', background: 'rgba(255,255,255,0.15)', color: 'white', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 8, cursor: 'pointer', fontSize: 13 }}>
-            🚪 Logout
-          </button>
-        </div>
-      </header>
+      <AdminNav active="inquiries" />
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         {/* Sidebar */}
@@ -127,13 +108,16 @@ export default function Dashboard() {
           </div>
 
           {/* Search */}
-          <div style={{ padding: '12px 16px', borderBottom: '1px solid #e2e8f0' }}>
+          <div style={{ padding: '12px 16px', borderBottom: '1px solid #e2e8f0', display: 'flex', gap: 8 }}>
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="🔍 Search inquiries..."
-              style={{ width: '100%', padding: '9px 12px', border: '1.5px solid #e2e8f0', borderRadius: 8, fontSize: 13, outline: 'none' }}
+              style={{ flex: 1, padding: '9px 12px', border: '1.5px solid #e2e8f0', borderRadius: 8, fontSize: 13, outline: 'none' }}
             />
+            <button onClick={fetchInquiries} title="Refresh" style={{ padding: '0 12px', background: '#f1f5f9', border: '1.5px solid #e2e8f0', borderRadius: 8, cursor: 'pointer', fontSize: 14 }}>
+              🔄
+            </button>
           </div>
 
           {/* Filter tabs */}
@@ -245,6 +229,27 @@ export default function Dashboard() {
                 <div style={{ fontSize: 12, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Message / Requirements</div>
                 <p style={{ fontSize: 15, color: '#1e293b', lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>{selected.message}</p>
               </div>
+
+              {selected.attachmentId && (
+                <div style={{ background: 'white', borderRadius: 16, padding: 24, border: '1.5px solid #e2e8f0', marginTop: 16 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Attached File</div>
+                  <a
+                    href={`/api/attachments/${selected.attachmentId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 12,
+                      padding: '12px 18px', background: '#f8faff', borderRadius: 12,
+                      border: '1.5px solid #dbeafe', textDecoration: 'none', color: '#1a3a5c',
+                      fontWeight: 600, fontSize: 14, wordBreak: 'break-all',
+                    }}
+                  >
+                    <span style={{ fontSize: 22 }}>📎</span>
+                    {selected.attachmentName || 'Download attachment'}
+                    <span style={{ fontSize: 12, color: '#2563a8', fontWeight: 700 }}>↓ Download</span>
+                  </a>
+                </div>
+              )}
             </div>
           )}
         </div>

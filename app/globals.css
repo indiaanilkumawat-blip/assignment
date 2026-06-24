@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
   --primary: #0f2137;
@@ -166,3 +165,50 @@ body {
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: #f1f5f9; }
 ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 4px; }
+
+/* ------------------------------------------------------------------ *
+ * CMS-authored page content (Terms, Privacy, custom admin pages)
+ * ------------------------------------------------------------------ */
+.cms-content h1, .cms-content h2, .cms-content h3 {
+  font-family: var(--font-display);
+  color: var(--primary);
+  font-weight: 700;
+  line-height: 1.25;
+}
+.cms-content h2 { font-size: clamp(22px, 3vw, 28px); margin: 28px 0 12px; }
+.cms-content h3 { font-size: clamp(18px, 2.4vw, 21px); margin: 22px 0 10px; }
+.cms-content p { margin: 0 0 16px; color: var(--text-muted); }
+.cms-content ul, .cms-content ol { margin: 0 0 16px; padding-left: 22px; color: var(--text-muted); }
+.cms-content li { margin-bottom: 8px; }
+.cms-content a { color: var(--primary-light); text-decoration: underline; word-break: break-word; }
+.cms-content strong { color: var(--text); font-weight: 700; }
+.cms-content table { width: 100%; border-collapse: collapse; margin: 0 0 16px; display: block; overflow-x: auto; }
+.cms-content th, .cms-content td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; font-size: 14px; }
+.cms-content hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+.cms-content img { max-width: 100%; height: auto; border-radius: 12px; }
+
+/* ------------------------------------------------------------------ *
+ * Global responsiveness & alignment safety net (#2 spacing, #11 mobile)
+ * ------------------------------------------------------------------ */
+html, body { max-width: 100%; overflow-x: hidden; }
+img, svg, video { max-width: 100%; height: auto; }
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .max-w-6xl, .max-w-7xl, .max-w-5xl, .max-w-4xl { padding-left: 24px; padding-right: 24px; }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .max-w-6xl, .max-w-7xl, .max-w-5xl, .max-w-4xl,
+  [class*="max-w-"].mx-auto { padding-left: 18px !important; padding-right: 18px !important; }
+  /* Prevent oversized fixed paddings from cramping small screens */
+  .cms-content { font-size: 15px; }
+  /* Tighten huge vertical rhythm on phones */
+  section { scroll-margin-top: 90px; }
+}
+
+/* Honour reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}

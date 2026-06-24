@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
 export interface IInquiry extends Document {
   name: string;
@@ -8,6 +8,8 @@ export interface IInquiry extends Document {
   serviceType: string;
   message: string;
   deadline?: string;
+  attachmentId?: Types.ObjectId;
+  attachmentName?: string;
   status: 'new' | 'read' | 'replied';
   createdAt: Date;
 }
@@ -21,6 +23,8 @@ const InquirySchema = new Schema<IInquiry>(
     serviceType: { type: String, required: true },
     message: { type: String, required: true },
     deadline: { type: String },
+    attachmentId: { type: Schema.Types.ObjectId, ref: 'Attachment' },
+    attachmentName: { type: String },
     status: { type: String, enum: ['new', 'read', 'replied'], default: 'new' },
   },
   { timestamps: true }
