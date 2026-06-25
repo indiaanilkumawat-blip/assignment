@@ -36,6 +36,7 @@ export interface ISettings extends Document {
     rating: string;
     years: string;
   };
+  heroStats: { icon: string; number: string; label: string }[];
   seo: {
     metaTitle: string;
     metaDescription: string;
@@ -79,10 +80,18 @@ const SettingsSchema = new Schema<ISettings>(
       gstin: { type: String, default: '' },
     },
     stats: {
-      assignments: { type: String, default: '50K+' },
-      writers: { type: String, default: '1500+' },
-      rating: { type: String, default: '4.8★' },
-      years: { type: String, default: '10+' },
+      assignments: { type: String, default: '' },
+      writers: { type: String, default: '' },
+      rating: { type: String, default: '' },
+      years: { type: String, default: '' },
+    },
+    heroStats: {
+      type: [{
+        icon: { type: String, default: '' },
+        number: { type: String, default: '' },
+        label: { type: String, default: '' },
+      }],
+      default: [],
     },
     seo: {
       metaTitle: { type: String, default: 'The Assignment Hub — Expert Academic Writing Services' },

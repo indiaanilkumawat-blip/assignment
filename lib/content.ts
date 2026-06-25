@@ -24,6 +24,9 @@ function toSettingsData(doc: ISettings): SettingsData {
     social: { ...DEFAULT_SETTINGS.social, ...(doc.social || {}) },
     business: { ...DEFAULT_SETTINGS.business, ...(doc.business || {}) },
     stats: { ...DEFAULT_SETTINGS.stats, ...(doc.stats || {}) },
+    heroStats: Array.isArray(doc.heroStats)
+      ? doc.heroStats.map((h) => ({ icon: h?.icon || '', number: h?.number || '', label: h?.label || '' }))
+      : [],
     seo: { ...DEFAULT_SETTINGS.seo, ...(doc.seo || {}) },
   };
 }

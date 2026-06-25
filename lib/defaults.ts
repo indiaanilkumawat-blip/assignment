@@ -3,6 +3,8 @@
 import type { ContentType } from '@/models/ContentItem';
 export type { ContentType };
 
+export type HeroStat = { icon: string; number: string; label: string };
+
 export type SettingsData = {
   siteName: string;
   tagline: string;
@@ -16,6 +18,7 @@ export type SettingsData = {
   social: { instagram: string; facebook: string; linkedin: string };
   business: { legalName: string; foundedYear: string; about: string; gstin: string };
   stats: { assignments: string; writers: string; rating: string; years: string };
+  heroStats: HeroStat[];
   seo: { metaTitle: string; metaDescription: string; keywords: string; siteUrl: string; ogImage: string; twitterHandle: string };
 };
 
@@ -111,6 +114,7 @@ export const DEFAULT_SETTINGS: SettingsData = {
   social: { instagram: '', facebook: '', linkedin: '' },
   business: { legalName: 'The Assignment Hub', foundedYear: '', about: '', gstin: '' },
   stats: { assignments: '', writers: '', rating: '', years: '' },
+  heroStats: [],
   seo: {
     metaTitle: 'The Assignment Hub — Expert Academic Writing Services',
     metaDescription: 'AI-Free, plagiarism-free assignment help by 1500+ expert writers.',
@@ -118,6 +122,15 @@ export const DEFAULT_SETTINGS: SettingsData = {
     siteUrl: '', ogImage: '', twitterHandle: '',
   },
 };
+
+// The classic 4 cards — used ONLY by the admin "Load default cards" button.
+// Not rendered automatically; the live hero shows only what is saved in settings.
+export const DEFAULT_HERO_STATS: HeroStat[] = [
+  { icon: '📚', number: '50K+',  label: 'Assignments Delivered' },
+  { icon: '👨‍🏫', number: '1500+', label: 'Expert Writers' },
+  { icon: '⭐', number: '4.8★',  label: 'Average Rating' },
+  { icon: '🏆', number: '10+',   label: 'Years of Excellence' },
+];
 
 export const DEFAULT_CONTENT: Record<ContentType, ContentItemData[]> = {
   service: [

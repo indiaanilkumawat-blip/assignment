@@ -74,12 +74,9 @@ export default async function HomePage() {
   ]);
 
   const waLink = `https://api.whatsapp.com/send/?phone=${settings.whatsapp}`;
-  const stats = [
-    { number: settings.stats.assignments, label: 'Assignments Delivered', icon: '📚' },
-    { number: settings.stats.writers, label: 'Expert Writers', icon: '👨‍🏫' },
-    { number: settings.stats.rating, label: 'Average Rating', icon: '⭐' },
-    { number: settings.stats.years, label: 'Years of Excellence', icon: '🏆' },
-  ].filter((s) => s.number && String(s.number).trim());
+  const stats = (settings.heroStats || [])
+    .filter((s) => s.number && String(s.number).trim())
+    .map((s) => ({ number: s.number, label: s.label, icon: s.icon }));
   const a = settings.address;
   const addressLine = [a.line1, a.line2, a.city, a.state, a.pincode, a.country].filter(Boolean).join(', ');
 
@@ -146,9 +143,9 @@ export default async function HomePage() {
                 <div className="grid grid-cols-2 gap-4 sm:gap-5 animate-fadeUp-1">
                   {stats.map((stat, i) => (
                     <div key={i} style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(12px)', borderRadius: 20, padding: '26px 20px', border: '1px solid rgba(255,255,255,0.12)', textAlign: 'center' }}>
-                      <div style={{ fontSize: 28, marginBottom: 8 }}>{stat.icon}</div>
+                      {stat.icon && <div style={{ fontSize: 28, marginBottom: 8 }}>{stat.icon}</div>}
                       <div style={{ fontFamily: 'var(--font-display)', fontSize: 34, fontWeight: 700, color: 'var(--accent)', lineHeight: 1 }}>{stat.number}</div>
-                      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', marginTop: 6, fontWeight: 500 }}>{stat.label}</div>
+                      {stat.label && <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', marginTop: 6, fontWeight: 500 }}>{stat.label}</div>}
                     </div>
                   ))}
                 </div>

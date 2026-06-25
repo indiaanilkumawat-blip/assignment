@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import AdminNav from '@/components/AdminNav';
-import type { SettingsData } from '@/lib/defaults';
+import { DEFAULT_HERO_STATS, type SettingsData } from '@/lib/defaults';
 
 type Settings = SettingsData & { _id?: string; key?: string };
 
@@ -74,6 +74,22 @@ export default function AdminSettingsPage() {
     for (const p of path.split('.')) v = (v as Record<string, unknown>)?.[p];
     return (v as string) ?? '';
   };
+
+  // ── Hero stat cards (fully admin-managed: icon, number, label) ──
+  const heroStats = s?.heroStats ?? [];
+  const mutStats = (fn: (arr: SettingsData['heroStats']) => SettingsData['heroStats']) =>
+    setS(prev => (prev ? { ...prev, heroStats: fn([...(prev.heroStats ?? [])]) } : prev));
+  const updStat = (i: number, k: 'icon' | 'number' | 'label', v: string) =>
+    mutStats(arr => { arr[i] = { ...arr[i], [k]: v }; return arr; });
+  const addStat = () => mutStats(arr => [...arr, { icon: '', number: '', label: '' }]);
+  const removeStat = (i: number) => mutStats(arr => arr.filter((_, j) => j !== i));
+  const moveStat = (i: number, dir: -1 | 1) => mutStats(arr => {
+    const j = i + dir;
+    if (j < 0 || j >= arr.length) return arr;
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+    return arr;
+  });
+  const loadDefaultStats = () => mutStats(() => DEFAULT_HERO_STATS.map(x => ({ ...x })));
 
   const save = async () => {
     if (!s) return;
@@ -172,13 +188,42 @@ export default function AdminSettingsPage() {
         </div>
 
         <div style={card}>
-          <div style={sectionTitle}>Homepage Statistics</div>
-          <div style={sectionHint}>The counters shown in the hero / stats band.</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16 }}>
-            <Field label="Assignments" value={get('stats.assignments')} onChange={set('stats.assignments')} placeholder="50K+" />
-            <Field label="Writers" value={get('stats.writers')} onChange={set('stats.writers')} placeholder="1500+" />
-            <Field label="Rating" value={get('stats.rating')} onChange={set('stats.rating')} placeholder="4.8★" />
-            <Field label="Years" value={get('stats.years')} onChange={set('stats.years')} placeholder="10+" />
+          <div style={sectionTitle}>Hero Stat Cards</div>
+          <div style={sectionHint}>The counter cards in the hero. Add as many as you want — each needs at least a number to show. Leave this empty to hide the cards entirely.</div>
+
+          {heroStats.length === 0 && (
+            <div style={{ padding: 18, border: '1.5px dashed #cbd5e1', borderRadius: 11, textAlign: 'center', color: '#94a3b8', fontSize: 13.5, marginBottom: 14 }}>
+              No stat cards yet — the hero shows no counters. Add your own, or load the classic set to start from.
+            </div>
+          )}
+
+          {heroStats.map((st, i) => (
+            <div key={i} style={{ display: 'grid', gridTemplateColumns: '70px 1fr 2fr auto', gap: 10, alignItems: 'end', marginBottom: 12, padding: 12, background: '#fafbfc', border: '1.5px solid #e2e8f0', borderRadius: 11 }}>
+              <div>
+                <label style={lbl}>Icon</label>
+                <input value={st.icon} onChange={e => updStat(i, 'icon', e.target.value)} placeholder="📚" style={{ ...inputStyle, textAlign: 'center' }} />
+              </div>
+              <div>
+                <label style={lbl}>Number</label>
+                <input value={st.number} onChange={e => updStat(i, 'number', e.target.value)} placeholder="50K+" style={inputStyle} />
+              </div>
+              <div>
+                <label style={lbl}>Label</label>
+                <input value={st.label} onChange={e => updStat(i, 'label', e.target.value)} placeholder="Assignments Delivered" style={inputStyle} />
+              </div>
+              <div style={{ display: 'flex', gap: 4 }}>
+                <button type="button" onClick={() => moveStat(i, -1)} disabled={i === 0} title="Move up" style={{ padding: '9px 11px', borderRadius: 8, border: '1.5px solid #e2e8f0', background: 'white', cursor: i === 0 ? 'not-allowed' : 'pointer', opacity: i === 0 ? 0.4 : 1 }}>▲</button>
+                <button type="button" onClick={() => moveStat(i, 1)} disabled={i === heroStats.length - 1} title="Move down" style={{ padding: '9px 11px', borderRadius: 8, border: '1.5px solid #e2e8f0', background: 'white', cursor: i === heroStats.length - 1 ? 'not-allowed' : 'pointer', opacity: i === heroStats.length - 1 ? 0.4 : 1 }}>▼</button>
+                <button type="button" onClick={() => removeStat(i)} title="Remove" style={{ padding: '9px 11px', borderRadius: 8, border: '1.5px solid #fecaca', background: 'white', color: '#dc2626', cursor: 'pointer' }}>✕</button>
+              </div>
+            </div>
+          ))}
+
+          <div style={{ display: 'flex', gap: 10, marginTop: 6, flexWrap: 'wrap' }}>
+            <button type="button" onClick={addStat} style={{ padding: '9px 16px', borderRadius: 9, fontSize: 13, fontWeight: 700, background: '#1a3a5c', color: 'white', border: 'none', cursor: 'pointer' }}>➕ Add stat card</button>
+            {heroStats.length === 0 && (
+              <button type="button" onClick={loadDefaultStats} style={{ padding: '9px 16px', borderRadius: 9, fontSize: 13, fontWeight: 700, background: 'white', color: '#1a3a5c', border: '1.5px solid #cbd5e1', cursor: 'pointer' }}>⬇️ Load classic 4 cards</button>
+            )}
           </div>
         </div>
 
