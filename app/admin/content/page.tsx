@@ -89,6 +89,15 @@ export default function AdminContentPage() {
     load(type);
   };
 
+  const loadSamples = async () => {
+    if (!confirm(`Load the built-in sample ${meta.label} into this empty section? You can edit or delete them afterwards.`)) return;
+    const res = await fetch('/api/admin/content/seed', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type }),
+    });
+    if (res.status === 401) { router.push('/admin/login'); return; }
+    load(type);
+  };
+
   const showRating = type === 'testimonial';
   const showSubtitle = type === 'testimonial' || type === 'step';
   const showBody = type !== 'domain';
@@ -177,8 +186,11 @@ export default function AdminContentPage() {
               <div style={{ textAlign: 'center', padding: 48, color: '#94a3b8' }}>Loading…</div>
             ) : items.length === 0 ? (
               <div style={{ background: 'white', borderRadius: 16, padding: 40, textAlign: 'center', border: '1.5px solid #e2e8f0' }}>
-                <div style={{ color: '#64748b', fontSize: 14, fontWeight: 600 }}>No custom {meta.label.toLowerCase()} yet</div>
-                <div style={{ color: '#94a3b8', fontSize: 13, marginTop: 4 }}>The site is showing built-in defaults. Add items here to override them.</div>
+                <div style={{ color: '#64748b', fontSize: 14, fontWeight: 600 }}>No {meta.label.toLowerCase()} yet</div>
+                <div style={{ color: '#94a3b8', fontSize: 13, marginTop: 4 }}>This section is hidden on the live site until you add items. Add your own, or load the sample set to start from.</div>
+                <button onClick={loadSamples} style={{ marginTop: 16, padding: '9px 18px', borderRadius: 10, fontSize: 13.5, fontWeight: 700, background: 'white', color: '#1a3a5c', border: '1.5px solid #1a3a5c', cursor: 'pointer' }}>
+                  ⬇️ Load sample {meta.label}
+                </button>
               </div>
             ) : (
               <div style={{ display: 'grid', gap: 10 }}>

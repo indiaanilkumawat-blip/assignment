@@ -1,16 +1,24 @@
 import Link from 'next/link';
 import { SettingsData, PageData, DEFAULT_SETTINGS } from '@/lib/defaults';
 
-const services = ['Essay Help', 'Dissertation Writing', 'Report Writing', 'CV Writing', 'SOP Writing', 'Case Study Help', 'Research Paper', 'Blog Writing'];
-const domains = ['Law Assignment', 'Engineering', 'Nursing', 'Finance & Stats', 'Management & HR', 'Science', 'Psychology', 'Calculus'];
+const FALLBACK_SERVICES = ['Essay Help', 'Dissertation Writing', 'Report Writing', 'CV Writing', 'SOP Writing', 'Case Study Help', 'Research Paper', 'Blog Writing'];
+const FALLBACK_DOMAINS = ['Law Assignment', 'Engineering', 'Nursing', 'Finance & Stats', 'Management & HR', 'Science', 'Psychology', 'Calculus'];
 
 export default function Footer({
   settings = DEFAULT_SETTINGS,
   pages = [],
+  serviceTitles,
+  domainTitles,
 }: {
   settings?: SettingsData;
   pages?: PageData[];
+  serviceTitles?: string[];
+  domainTitles?: string[];
 }) {
+  // Use admin content when provided; otherwise fall back to a generic list so
+  // inner pages (which don't load content) still show a populated footer.
+  const services = serviceTitles ?? FALLBACK_SERVICES;
+  const domains = domainTitles ?? FALLBACK_DOMAINS;
   const waLink = `https://api.whatsapp.com/send/?phone=${settings.whatsapp}`;
   const a = settings.address;
   const addressLine = [a.line1, a.line2, a.city, a.state, a.pincode, a.country]
@@ -57,6 +65,7 @@ export default function Footer({
           </div>
 
           {/* Services */}
+          {services.length > 0 && (
           <div>
             <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 18 }}>Services</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -65,8 +74,10 @@ export default function Footer({
               ))}
             </div>
           </div>
+          )}
 
           {/* Domains */}
+          {domains.length > 0 && (
           <div>
             <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 18 }}>Domains</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -75,6 +86,7 @@ export default function Footer({
               ))}
             </div>
           </div>
+          )}
 
           {/* Contact + address */}
           <div>

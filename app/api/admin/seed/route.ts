@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Settings from '@/models/Settings';
 import Page from '@/models/Page';
+import Section from '@/models/Section';
 import { isAuthed } from '@/lib/auth';
+import { DEFAULT_SECTIONS } from '@/lib/defaults';
 
 const TERMS_HTML = `
 <p>Welcome to The Assignment Hub. By accessing or using our website and services, you agree to be bound by these Terms &amp; Conditions. Please read them carefully.</p>
@@ -63,6 +65,12 @@ export async function POST(req: NextRequest) {
       { $setOnInsert: { key: 'global' } },
       { new: true, upsert: true, setDefaultsOnInsert: true }
     );
+
+    // 1b) Ensure the homepage Section config exists (config only — no marketing
+    //     copy is injected, so the page stays driven by what the admin enters).
+    if ((await Section.countDocuments()) === 0) {
+      await Section.insertMany(DEFAULT_SECTIONS);
+    }
 
     // 2) Seed Terms & Privacy pages only if they don't already exist (idempotent).
     const created: string[] = [];

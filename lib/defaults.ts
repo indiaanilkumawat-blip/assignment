@@ -32,6 +32,65 @@ export type ContentItemData = {
   rating: number; published: boolean;
 };
 
+export type SectionKey =
+  | 'hero' | 'domains' | 'services' | 'how-it-works'
+  | 'about' | 'business-info' | 'cta' | 'reviews' | 'faq';
+
+export type SectionData = {
+  _id?: string;
+  key: SectionKey;
+  label: string;
+  enabled: boolean;
+  order: number;
+  tag: string;
+  heading: string;
+  subheading: string;
+  marginLeft: number;
+  marginRight: number;
+  maxWidth: number;
+};
+
+/* Which sections pull their list items from the Content tab. The rest are
+ * driven purely by Settings + the section's own heading text. */
+export const CONTENT_DRIVEN: Record<string, ContentType | undefined> = {
+  services: 'service',
+  domains: 'domain',
+  'how-it-works': 'step',
+  about: 'reason',
+  reviews: 'testimonial',
+  faq: 'faq',
+};
+
+/* Default section configuration. Used as the in-memory fallback when the DB
+ * has no Section rows yet, and as the template the admin "Sections" page
+ * persists on first visit. Edit any of this from the admin panel. */
+export const DEFAULT_SECTIONS: SectionData[] = [
+  { key: 'hero',          label: 'Hero',                order: 1, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 1280,
+    tag: "India's Most Trusted Academic Help",
+    heading: 'Expert Assignment Help — | AI-Free & Plagiarism-Free',
+    subheading: 'Get your assignments done by qualified academic experts. 100% original, on-time delivery, and grades you deserve — guaranteed.' },
+  { key: 'domains',       label: 'Subjects Strip',      order: 2, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 1280,
+    tag: '100+ Subjects:', heading: '', subheading: '' },
+  { key: 'services',      label: 'Services',            order: 3, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 1280,
+    tag: 'Our Services', heading: 'Complete Academic Writing Services',
+    subheading: 'From essays to dissertations — our expert team handles every type of academic assignment with precision.' },
+  { key: 'how-it-works',  label: 'How It Works',        order: 4, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 1280,
+    tag: 'Process', heading: 'How It Works in 4 Simple Steps', subheading: '' },
+  { key: 'about',         label: 'About / Why Choose Us', order: 5, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 1280,
+    tag: 'Why Choose Us', heading: 'The {siteName} Advantage',
+    subheading: '' },
+  { key: 'business-info', label: 'Business & Contact',  order: 6, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 1280,
+    tag: '', heading: '', subheading: '' },
+  { key: 'cta',           label: 'Call To Action',      order: 7, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 900,
+    tag: '', heading: 'Ready to Get the Grade You Deserve?',
+    subheading: 'Join {assignments} students who trust {siteName} for their academic success.' },
+  { key: 'reviews',       label: 'Reviews',             order: 8, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 1280,
+    tag: 'Student Reviews', heading: 'What Our Students Say',
+    subheading: 'Rated by thousands of verified students' },
+  { key: 'faq',           label: 'FAQ',                 order: 9, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 768,
+    tag: 'FAQ', heading: 'Frequently Asked Questions', subheading: '' },
+];
+
 /* ------------------------------------------------------------------ *
  * Fallback defaults — used when the DB is empty / unreachable so the
  * site renders identically even before any content is seeded.

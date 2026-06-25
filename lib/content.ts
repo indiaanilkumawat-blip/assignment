@@ -2,13 +2,14 @@ import connectDB from '@/lib/mongodb';
 import Settings, { ISettings } from '@/models/Settings';
 import Page, { IPage } from '@/models/Page';
 import ContentItem, { ContentType } from '@/models/ContentItem';
+import Section, { ISection } from '@/models/Section';
 import {
-  SettingsData, PageData, ContentItemData,
-  DEFAULT_SETTINGS, DEFAULT_CONTENT,
+  SettingsData, PageData, ContentItemData, SectionData,
+  DEFAULT_SETTINGS, DEFAULT_CONTENT, DEFAULT_SECTIONS,
 } from '@/lib/defaults';
 
-export type { SettingsData, PageData, ContentItemData };
-export { DEFAULT_SETTINGS, DEFAULT_CONTENT };
+export type { SettingsData, PageData, ContentItemData, SectionData };
+export { DEFAULT_SETTINGS, DEFAULT_CONTENT, DEFAULT_SECTIONS };
 
 
 /* ------------------------------------------------------------------ *
@@ -42,14 +43,36 @@ export async function getContent(type: ContentType): Promise<ContentItemData[]> 
   try {
     await connectDB();
     const docs = await ContentItem.find({ type, published: true }).sort({ order: 1 }).lean();
-    if (!docs || docs.length === 0) return DEFAULT_CONTENT[type];
+    // Return ONLY what the admin entered. No silent demo-content fallback —
+    // an empty section simply renders nothing on the live site.
     return docs.map((d) => ({
       _id: String(d._id),
       type: d.type, order: d.order, title: d.title, subtitle: d.subtitle,
       body: d.body, icon: d.icon, rating: d.rating, published: d.published,
     }));
   } catch {
-    return DEFAULT_CONTENT[type];
+    return [];
+  }
+}
+
+/**
+ * Section configuration that drives the homepage layout. If the DB has no
+ * Section rows yet, fall back to the in-memory defaults so the page still
+ * renders — the admin "Sections" page persists editable copies on first open.
+ */
+export async function getSections(): Promise<SectionData[]> {
+  try {
+    await connectDB();
+    const docs = await Section.find({}).sort({ order: 1 }).lean<ISection[]>();
+    if (!docs || docs.length === 0) return DEFAULT_SECTIONS;
+    return docs.map((d) => ({
+      _id: String(d._id),
+      key: d.key, label: d.label, enabled: d.enabled, order: d.order,
+      tag: d.tag, heading: d.heading, subheading: d.subheading,
+      marginLeft: d.marginLeft, marginRight: d.marginRight, maxWidth: d.maxWidth,
+    }));
+  } catch {
+    return DEFAULT_SECTIONS;
   }
 }
 

@@ -4,8 +4,9 @@ import { useRouter } from 'next/navigation';
 
 const TABS = [
   { key: 'inquiries', label: '📥 Inquiries', href: '/admin/dashboard' },
-  { key: 'pages', label: '📄 Pages', href: '/admin/pages' },
+  { key: 'sections', label: '🧱 Sections', href: '/admin/sections' },
   { key: 'content', label: '🧩 Content', href: '/admin/content' },
+  { key: 'pages', label: '📄 Pages', href: '/admin/pages' },
   { key: 'settings', label: '⚙️ Settings', href: '/admin/settings' },
 ];
 
