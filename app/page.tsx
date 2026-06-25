@@ -79,7 +79,7 @@ export default async function HomePage() {
     { number: settings.stats.writers, label: 'Expert Writers', icon: '👨‍🏫' },
     { number: settings.stats.rating, label: 'Average Rating', icon: '⭐' },
     { number: settings.stats.years, label: 'Years of Excellence', icon: '🏆' },
-  ];
+  ].filter((s) => s.number && String(s.number).trim());
   const a = settings.address;
   const addressLine = [a.line1, a.line2, a.city, a.state, a.pincode, a.country].filter(Boolean).join(', ');
 
@@ -117,7 +117,7 @@ export default async function HomePage() {
             <div style={{ position: 'absolute', bottom: -100, left: -150, width: 500, height: 500, borderRadius: '50%', background: 'rgba(232,160,32,0.08)', pointerEvents: 'none', filter: 'blur(60px)' }} />
             <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
             <div style={box(sec)}>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+              <div className={`grid grid-cols-1 gap-12 lg:gap-16 items-center${stats.length ? ' lg:grid-cols-2' : ''}`}>
                 <div className="animate-fadeUp">
                   {sec.tag && (
                     <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 26, padding: '7px 18px', borderRadius: 100, background: 'rgba(232,160,32,0.15)', border: '1px solid rgba(232,160,32,0.35)', color: 'var(--accent)', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
@@ -142,6 +142,7 @@ export default async function HomePage() {
                     </a>
                   </div>
                 </div>
+                {stats.length > 0 && (
                 <div className="grid grid-cols-2 gap-4 sm:gap-5 animate-fadeUp-1">
                   {stats.map((stat, i) => (
                     <div key={i} style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(12px)', borderRadius: 20, padding: '26px 20px', border: '1px solid rgba(255,255,255,0.12)', textAlign: 'center' }}>
@@ -151,6 +152,7 @@ export default async function HomePage() {
                     </div>
                   ))}
                 </div>
+                )}
               </div>
             </div>
           </section>

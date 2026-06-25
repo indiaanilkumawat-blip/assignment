@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import AdminNav from '@/components/AdminNav';
 import Link from 'next/link';
-import { SectionData, CONTENT_DRIVEN } from '@/lib/defaults';
+import { SectionData, CONTENT_DRIVEN, SECTION_HINTS } from '@/lib/defaults';
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '9px 12px', border: '1.5px solid #e2e8f0',
@@ -66,10 +66,10 @@ export default function AdminSectionsPage() {
   };
 
   const resetDefaults = async () => {
-    if (!confirm('Reset every section back to the built-in defaults? Your custom headings, order and margins will be lost.')) return;
+    if (!confirm('Clear all section text and restore default layout (order, margins, visibility)? All headings/tags/subheadings will become blank so the live site shows only what you type. This cannot be undone.')) return;
     const res = await fetch('/api/admin/sections', { method: 'POST' });
     if (res.status === 401) { router.push('/admin/login'); return; }
-    setMsg('↩️ Sections reset to defaults.');
+    setMsg('↩️ Section text cleared. Live site now shows only what you enter.');
     load();
   };
 
@@ -87,7 +87,7 @@ export default function AdminSectionsPage() {
             </p>
           </div>
           <button onClick={resetDefaults} style={{ padding: '9px 16px', borderRadius: 9, fontSize: 13, fontWeight: 700, background: 'white', color: '#dc2626', border: '1.5px solid #fecaca', cursor: 'pointer', whiteSpace: 'nowrap' }}>
-            ↩️ Reset to defaults
+            🧹 Clear all text
           </button>
         </div>
 
@@ -133,13 +133,13 @@ export default function AdminSectionsPage() {
                         {s.key !== 'business-info' && (
                           <div>
                             <label style={lbl}>{s.key === 'domains' ? 'Prefix Label' : 'Tag (small pill)'}</label>
-                            <input value={s.tag} onChange={(e) => upd(s._id!, 'tag', e.target.value)} placeholder="e.g. Our Services" style={inputStyle} />
+                            <input value={s.tag} onChange={(e) => upd(s._id!, 'tag', e.target.value)} placeholder={SECTION_HINTS[s.key]?.tag || 'e.g. Our Services'} style={inputStyle} />
                           </div>
                         )}
                         {s.key !== 'domains' && (
                           <div>
                             <label style={lbl}>Heading {s.key === 'hero' ? '(use | for gold text)' : ''}</label>
-                            <input value={s.heading} onChange={(e) => upd(s._id!, 'heading', e.target.value)} placeholder="Section title" style={inputStyle} />
+                            <input value={s.heading} onChange={(e) => upd(s._id!, 'heading', e.target.value)} placeholder={SECTION_HINTS[s.key]?.heading || 'Section title'} style={inputStyle} />
                           </div>
                         )}
                       </div>
@@ -147,7 +147,7 @@ export default function AdminSectionsPage() {
                       {s.key !== 'domains' && (
                         <div>
                           <label style={lbl}>Subheading / Intro paragraph</label>
-                          <textarea value={s.subheading} onChange={(e) => upd(s._id!, 'subheading', e.target.value)} rows={2} placeholder="Optional supporting text" style={{ ...inputStyle, resize: 'vertical' }} />
+                          <textarea value={s.subheading} onChange={(e) => upd(s._id!, 'subheading', e.target.value)} rows={2} placeholder={SECTION_HINTS[s.key]?.subheading || 'Optional supporting text'} style={{ ...inputStyle, resize: 'vertical' }} />
                         </div>
                       )}
 

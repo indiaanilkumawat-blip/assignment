@@ -64,32 +64,33 @@ export const CONTENT_DRIVEN: Record<string, ContentType | undefined> = {
 /* Default section configuration. Used as the in-memory fallback when the DB
  * has no Section rows yet, and as the template the admin "Sections" page
  * persists on first visit. Edit any of this from the admin panel. */
+// Layout/config only — NO marketing copy. Text stays blank until the admin
+// types it on the Sections page, so the live site shows only admin-entered data.
 export const DEFAULT_SECTIONS: SectionData[] = [
-  { key: 'hero',          label: 'Hero',                order: 1, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 1280,
-    tag: "India's Most Trusted Academic Help",
-    heading: 'Expert Assignment Help — | AI-Free & Plagiarism-Free',
-    subheading: 'Get your assignments done by qualified academic experts. 100% original, on-time delivery, and grades you deserve — guaranteed.' },
-  { key: 'domains',       label: 'Subjects Strip',      order: 2, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 1280,
-    tag: '100+ Subjects:', heading: '', subheading: '' },
-  { key: 'services',      label: 'Services',            order: 3, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 1280,
-    tag: 'Our Services', heading: 'Complete Academic Writing Services',
-    subheading: 'From essays to dissertations — our expert team handles every type of academic assignment with precision.' },
-  { key: 'how-it-works',  label: 'How It Works',        order: 4, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 1280,
-    tag: 'Process', heading: 'How It Works in 4 Simple Steps', subheading: '' },
-  { key: 'about',         label: 'About / Why Choose Us', order: 5, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 1280,
-    tag: 'Why Choose Us', heading: 'The {siteName} Advantage',
-    subheading: '' },
-  { key: 'business-info', label: 'Business & Contact',  order: 6, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 1280,
-    tag: '', heading: '', subheading: '' },
-  { key: 'cta',           label: 'Call To Action',      order: 7, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 900,
-    tag: '', heading: 'Ready to Get the Grade You Deserve?',
-    subheading: 'Join {assignments} students who trust {siteName} for their academic success.' },
-  { key: 'reviews',       label: 'Reviews',             order: 8, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 1280,
-    tag: 'Student Reviews', heading: 'What Our Students Say',
-    subheading: 'Rated by thousands of verified students' },
-  { key: 'faq',           label: 'FAQ',                 order: 9, enabled: true,  marginLeft: 20, marginRight: 20, maxWidth: 768,
-    tag: 'FAQ', heading: 'Frequently Asked Questions', subheading: '' },
+  { key: 'hero',          label: 'Hero',                 order: 1, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 1280, tag: '', heading: '', subheading: '' },
+  { key: 'domains',       label: 'Subjects Strip',       order: 2, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 1280, tag: '', heading: '', subheading: '' },
+  { key: 'services',      label: 'Services',             order: 3, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 1280, tag: '', heading: '', subheading: '' },
+  { key: 'how-it-works',  label: 'How It Works',         order: 4, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 1280, tag: '', heading: '', subheading: '' },
+  { key: 'about',         label: 'About / Why Choose Us', order: 5, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 1280, tag: '', heading: '', subheading: '' },
+  { key: 'business-info', label: 'Business & Contact',   order: 6, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 1280, tag: '', heading: '', subheading: '' },
+  { key: 'cta',           label: 'Call To Action',       order: 7, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 900,  tag: '', heading: '', subheading: '' },
+  { key: 'reviews',       label: 'Reviews',              order: 8, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 1280, tag: '', heading: '', subheading: '' },
+  { key: 'faq',           label: 'FAQ',                  order: 9, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 768,  tag: '', heading: '', subheading: '' },
 ];
+
+// Suggested copy shown ONLY as greyed-out placeholders in the admin Sections
+// form. These are hints — never rendered on the live site.
+export const SECTION_HINTS: Record<SectionKey, { tag: string; heading: string; subheading: string }> = {
+  'hero':          { tag: "India's Most Trusted Academic Help", heading: 'Expert Assignment Help — | AI-Free & Plagiarism-Free', subheading: 'Get your assignments done by qualified academic experts. 100% original, on-time delivery, and grades you deserve.' },
+  'domains':       { tag: '100+ Subjects:', heading: '', subheading: '' },
+  'services':      { tag: 'Our Services', heading: 'Complete Academic Writing Services', subheading: 'From essays to dissertations — every type of academic assignment.' },
+  'how-it-works':  { tag: 'Process', heading: 'How It Works in 4 Simple Steps', subheading: '' },
+  'about':         { tag: 'Why Choose Us', heading: 'The {siteName} Advantage', subheading: '' },
+  'business-info': { tag: '', heading: '', subheading: '' },
+  'cta':           { tag: '', heading: 'Ready to Get the Grade You Deserve?', subheading: 'Join {assignments} students who trust {siteName}.' },
+  'reviews':       { tag: 'Student Reviews', heading: 'What Our Students Say', subheading: 'Rated by thousands of verified students' },
+  'faq':           { tag: 'FAQ', heading: 'Frequently Asked Questions', subheading: '' },
+};
 
 /* ------------------------------------------------------------------ *
  * Fallback defaults — used when the DB is empty / unreachable so the
@@ -109,7 +110,7 @@ export const DEFAULT_SETTINGS: SettingsData = {
   },
   social: { instagram: '', facebook: '', linkedin: '' },
   business: { legalName: 'The Assignment Hub', foundedYear: '', about: '', gstin: '' },
-  stats: { assignments: '50K+', writers: '1500+', rating: '4.8★', years: '10+' },
+  stats: { assignments: '', writers: '', rating: '', years: '' },
   seo: {
     metaTitle: 'The Assignment Hub — Expert Academic Writing Services',
     metaDescription: 'AI-Free, plagiarism-free assignment help by 1500+ expert writers.',
