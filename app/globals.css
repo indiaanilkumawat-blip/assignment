@@ -89,6 +89,33 @@ body {
 .nav-link:hover::after { width: 100%; }
 .nav-link:hover { color: var(--primary-light); }
 
+/* Light nav links (white text on the navy bar) */
+.nav-link-light {
+  position: relative;
+  color: rgba(255,255,255,0.82);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  transition: color 0.2s;
+  padding: 6px 0;
+}
+.nav-link-light::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.25s ease;
+  border-radius: 2px;
+}
+.nav-link-light:hover { color: #fff; }
+.nav-link-light:hover::after { width: 100%; }
+.nav-link-light.is-active { color: #fff; }
+.nav-link-light.is-active::after { width: 100%; }
+
 /* Form input */
 .form-input {
   width: 100%;
