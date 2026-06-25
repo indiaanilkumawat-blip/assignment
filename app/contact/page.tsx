@@ -41,7 +41,8 @@ export default async function ContactPage() {
         {/* Hero strip */}
         <div style={{
           background: 'linear-gradient(135deg, #0f2137 0%, #1a3a5c 100%)',
-          padding: '40px 0 80px', position: 'relative', overflow: 'hidden',
+          padding: '52px 0 116px', position: 'relative', overflow: 'hidden',
+          borderRadius: '0 0 32px 32px',
         }}>
           <div style={{ position: 'absolute', top: -80, right: -80, width: 320, height: 320, borderRadius: '50%', background: 'rgba(232,160,32,0.08)', filter: 'blur(40px)', pointerEvents: 'none' }} />
           <div className="max-w-6xl mx-auto px-6 text-center">
@@ -57,8 +58,8 @@ export default async function ContactPage() {
           </div>
         </div>
 
-        {/* Cards section — pulled up */}
-        <div className="max-w-6xl mx-auto px-6" style={{ marginTop: -40, paddingBottom: 80 }}>
+        {/* Cards section — floats over the hero base */}
+        <div className="max-w-6xl mx-auto px-6 relative z-10 -mt-16 lg:-mt-24" style={{ paddingBottom: 80 }}>
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
 
             {/* Left info */}
@@ -69,7 +70,7 @@ export default async function ContactPage() {
                     display: 'flex', alignItems: 'center', gap: 14,
                     padding: '16px 20px', background: 'white', borderRadius: 16,
                     border: '1.5px solid var(--border)', textDecoration: 'none',
-                    boxShadow: '0 2px 12px rgba(15,33,55,0.05)',
+                    boxShadow: '0 16px 40px rgba(15,33,55,0.14)',
                     transition: 'border-color 0.2s',
                   }} className="hover:border-blue-300">
                     <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--bg)', border: '1.5px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>
@@ -85,7 +86,7 @@ export default async function ContactPage() {
                     display: 'flex', alignItems: 'center', gap: 14,
                     padding: '16px 20px', background: 'white', borderRadius: 16,
                     border: '1.5px solid var(--border)',
-                    boxShadow: '0 2px 12px rgba(15,33,55,0.05)',
+                    boxShadow: '0 16px 40px rgba(15,33,55,0.14)',
                   }}>
                     <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--bg)', border: '1.5px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>
                       {item.icon}
