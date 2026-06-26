@@ -239,23 +239,27 @@ export default function AdminContentPage() {
             ) : (
               <div style={{ display: 'grid', gap: 10 }}>
                 {items.map(it => (
-                  <div key={it._id} style={{ background: 'white', borderRadius: 14, padding: '14px 18px', border: '1.5px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: 14 }}>
-                    <span style={{ fontSize: 24, width: 32, textAlign: 'center', flexShrink: 0 }}>{it.icon || '•'}</span>
-                    <div style={{ flex: 1, minWidth: 0 }}>
+                  <div key={it._id} style={{ background: 'white', borderRadius: 14, padding: '14px 16px', border: '1.5px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: 22, width: 30, textAlign: 'center', flexShrink: 0 }}>{it.icon || '•'}</span>
+                    <div style={{ flex: '1 1 200px', minWidth: 0 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                        <span style={{ fontWeight: 700, fontSize: 14.5, color: '#1e293b' }}>{it.title || '(untitled)'}</span>
+                        <span style={{ fontWeight: 700, fontSize: 14.5, color: '#1e293b', wordBreak: 'break-word' }}>{it.title || '(untitled)'}</span>
                         {showRating && <span style={{ fontSize: 12, color: '#e8a020' }}>{'★'.repeat(it.rating)}</span>}
                         {!it.published && <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 100, background: '#fee2e2', color: '#dc2626', textTransform: 'uppercase' }}>Draft</span>}
                       </div>
                       {(it.subtitle || it.body) && (
-                        <div style={{ fontSize: 12.5, color: '#94a3b8', marginTop: 3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <div style={{
+                          fontSize: 12.5, color: '#94a3b8', marginTop: 3, lineHeight: 1.5,
+                          display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden', wordBreak: 'break-word',
+                        }}>
                           {it.subtitle ? `${it.subtitle} — ` : ''}{it.body}
                         </div>
                       )}
                     </div>
-                    <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
-                      <button onClick={() => setEditing(it)} style={{ padding: '7px 14px', borderRadius: 8, fontSize: 13, fontWeight: 600, background: '#1a3a5c', color: 'white', border: 'none', cursor: 'pointer' }}>✏️ Edit</button>
-                      <button onClick={() => remove(it)} style={{ padding: '7px 12px', borderRadius: 8, fontSize: 13, fontWeight: 600, background: '#fee2e2', color: '#dc2626', border: 'none', cursor: 'pointer' }}>🗑️</button>
+                    <div style={{ display: 'flex', gap: 8, flexShrink: 0, marginLeft: 'auto' }}>
+                      <button onClick={() => setEditing(it)} style={{ padding: '8px 14px', borderRadius: 8, fontSize: 13, fontWeight: 600, background: '#1a3a5c', color: 'white', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}>✏️ Edit</button>
+                      <button onClick={() => remove(it)} aria-label="Delete" title="Delete" style={{ padding: '8px 12px', borderRadius: 8, fontSize: 13, fontWeight: 600, background: '#fee2e2', color: '#dc2626', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}>🗑️</button>
                     </div>
                   </div>
                 ))}

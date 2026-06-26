@@ -246,3 +246,26 @@ img, svg, video { max-width: 100%; height: auto; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 }
+
+/* ------------------------------------------------------------------ *
+ * Admin inquiries — responsive master/detail layout
+ * Desktop: list sidebar (300px) + detail pane side by side.
+ * Mobile (<=768px): stacked — list on top (capped height, scrolls),
+ * detail below — so nothing is clipped off-screen.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .admin-split { flex-direction: column !important; overflow: visible !important; }
+  .admin-split .admin-sidebar {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 48vh;
+    border-right: none !important;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .admin-split .admin-detail { height: auto !important; padding: 16px !important; }
+}
+
+/* Settings hero-stat editor rows stack on small screens */
+@media (max-width: 640px) {
+  .admin-stat-row { grid-template-columns: 1fr !important; }
+}

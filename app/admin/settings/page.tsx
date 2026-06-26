@@ -198,7 +198,7 @@ export default function AdminSettingsPage() {
           )}
 
           {heroStats.map((st, i) => (
-            <div key={i} style={{ display: 'grid', gridTemplateColumns: '70px 1fr 2fr auto', gap: 10, alignItems: 'end', marginBottom: 12, padding: 12, background: '#fafbfc', border: '1.5px solid #e2e8f0', borderRadius: 11 }}>
+            <div key={i} className="admin-stat-row" style={{ display: 'grid', gridTemplateColumns: '70px 1fr 2fr auto', gap: 10, alignItems: 'end', marginBottom: 12, padding: 12, background: '#fafbfc', border: '1.5px solid #e2e8f0', borderRadius: 11 }}>
               <div>
                 <label style={lbl}>Icon</label>
                 <input value={st.icon} onChange={e => updStat(i, 'icon', e.target.value)} placeholder="📚" style={{ ...inputStyle, textAlign: 'center' }} />

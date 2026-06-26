@@ -87,9 +87,9 @@ export default function Dashboard() {
     <div style={{ minHeight: '100vh', background: '#f1f5f9', display: 'flex', flexDirection: 'column' }}>
       <AdminNav active="inquiries" />
 
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+      <div className="admin-split" style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         {/* Sidebar */}
-        <div style={{ width: 300, background: 'white', borderRight: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', height: 'calc(100vh - 60px)', overflow: 'hidden' }}>
+        <div className="admin-sidebar" style={{ width: 300, background: 'white', borderRight: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', height: 'calc(100vh - 60px)', overflow: 'hidden' }}>
           {/* Stats */}
           <div style={{ padding: 16, borderBottom: '1px solid #e2e8f0' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -172,7 +172,7 @@ export default function Dashboard() {
         </div>
 
         {/* Detail */}
-        <div style={{ flex: 1, overflow: 'auto', padding: 24 }}>
+        <div className="admin-detail" style={{ flex: 1, overflow: 'auto', padding: 24 }}>
           {!selected ? (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#94a3b8' }}>
               <div style={{ fontSize: 56, marginBottom: 16 }}>📋</div>
@@ -206,7 +206,7 @@ export default function Dashboard() {
 
               {/* Info cards */}
               <div style={{ background: 'white', borderRadius: 16, padding: 24, border: '1.5px solid #e2e8f0', marginBottom: 16 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16 }}>
                   {[
                     { label: 'Full Name', value: selected.name },
                     { label: 'Email', value: selected.email },
