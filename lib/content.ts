@@ -5,7 +5,7 @@ import ContentItem, { ContentType } from '@/models/ContentItem';
 import Section, { ISection } from '@/models/Section';
 import {
   SettingsData, PageData, ContentItemData, SectionData,
-  DEFAULT_SETTINGS, DEFAULT_CONTENT, DEFAULT_SECTIONS,
+  DEFAULT_SETTINGS, DEFAULT_CONTENT, DEFAULT_SECTIONS, slugify,
 } from '@/lib/defaults';
 
 export type { SettingsData, PageData, ContentItemData, SectionData };
@@ -52,6 +52,8 @@ export async function getContent(type: ContentType): Promise<ContentItemData[]> 
       _id: String(d._id),
       type: d.type, order: d.order, title: d.title, subtitle: d.subtitle,
       body: d.body, icon: d.icon, rating: d.rating, published: d.published,
+      slug: d.slug || '', bodyHtml: d.bodyHtml || '',
+      benefits: Array.isArray(d.benefits) ? d.benefits : [],
     }));
   } catch {
     return [];
@@ -76,6 +78,42 @@ export async function getSections(): Promise<SectionData[]> {
     }));
   } catch {
     return DEFAULT_SECTIONS;
+  }
+}
+
+/**
+ * Look up ONE published service by its URL slug for the individual service
+ * page. Matches the stored `slug` first; if a service was saved before slugs
+ * existed (empty slug), it falls back to matching a slugified title so links
+ * built from titles still resolve. Returns null when nothing matches.
+ */
+export async function getServiceBySlug(slug: string): Promise<ContentItemData | null> {
+  try {
+    await connectDB();
+    const target = slugify(slug);
+    const docs = await ContentItem.find({ type: 'service', published: true }).sort({ order: 1 }).lean();
+    const match = docs.find((d) => (d.slug && d.slug === target) || (!d.slug && slugify(d.title) === target));
+    if (!match) return null;
+    return {
+      _id: String(match._id),
+      type: match.type, order: match.order, title: match.title, subtitle: match.subtitle,
+      body: match.body, icon: match.icon, rating: match.rating, published: match.published,
+      slug: match.slug || slugify(match.title), bodyHtml: match.bodyHtml || '',
+      benefits: Array.isArray(match.benefits) ? match.benefits : [],
+    };
+  } catch {
+    return null;
+  }
+}
+
+/** All published service slugs — used by the sitemap and static params. */
+export async function getServiceSlugs(): Promise<string[]> {
+  try {
+    await connectDB();
+    const docs = await ContentItem.find({ type: 'service', published: true }).select('slug title').lean();
+    return docs.map((d) => d.slug || slugify(d.title)).filter(Boolean);
+  } catch {
+    return [];
   }
 }
 

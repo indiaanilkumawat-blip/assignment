@@ -16,11 +16,14 @@ interface Item {
   icon: string;
   rating: number;
   published: boolean;
+  slug: string;
+  bodyHtml: string;
+  benefits: string[];
 }
 
 const TYPES: { key: ContentType; label: string; hint: string }[] = [
-  { key: 'service', label: 'Services', hint: 'Service cards (icon + title + description).' },
-  { key: 'domain', label: 'Domains', hint: 'Subject areas / domains covered (icon + title).' },
+  { key: 'service', label: 'Services', hint: 'Service cards (icon + title + description). Each gets its own page.' },
+  { key: 'domain', label: 'Subjects', hint: 'Subject areas covered (icon + title).' },
   { key: 'step', label: 'How It Works', hint: 'Process steps (icon + title + description).' },
   { key: 'reason', label: 'Why Choose Us', hint: 'Reasons / USPs (icon + title + description).' },
   { key: 'testimonial', label: 'Testimonials', hint: 'Student reviews (name=title, role=subtitle, review=body, rating).' },
@@ -29,6 +32,7 @@ const TYPES: { key: ContentType; label: string; hint: string }[] = [
 
 const blank = (type: ContentType): Omit<Item, '_id'> => ({
   type, order: 0, title: '', subtitle: '', body: '', icon: '', rating: 5, published: true,
+  slug: '', bodyHtml: '', benefits: [],
 });
 
 const inputStyle: React.CSSProperties = {
@@ -61,7 +65,7 @@ export default function AdminContentPage() {
 
   useEffect(() => { load(type); setEditing(null); }, [type, load]);
 
-  const upd = (k: keyof Item, v: string | number | boolean) =>
+  const upd = (k: keyof Item, v: string | number | boolean | string[]) =>
     setEditing(prev => prev ? { ...prev, [k]: v } : prev);
 
   const save = async () => {
@@ -101,7 +105,8 @@ export default function AdminContentPage() {
   const showRating = type === 'testimonial';
   const showSubtitle = type === 'testimonial' || type === 'step';
   const showBody = type !== 'domain';
-  const bodyLabel = type === 'faq' ? 'Answer' : type === 'testimonial' ? 'Review Text' : 'Description';
+  const showServiceFields = type === 'service';
+  const bodyLabel = type === 'faq' ? 'Answer' : type === 'testimonial' ? 'Review Text' : type === 'service' ? 'Short Description (card teaser)' : 'Description';
   const titleLabel = type === 'faq' ? 'Question' : type === 'testimonial' ? 'Student Name' : 'Title';
   const subtitleLabel = type === 'testimonial' ? 'Role / Course' : 'Accent Label';
 
@@ -160,6 +165,45 @@ export default function AdminContentPage() {
                   <label style={lbl}>{bodyLabel}</label>
                   <textarea value={editing.body} onChange={e => upd('body', e.target.value)} rows={4} style={{ ...inputStyle, resize: 'vertical' }} />
                 </div>
+              )}
+              {showServiceFields && (
+                <>
+                  <div>
+                    <label style={lbl}>URL Slug</label>
+                    <input
+                      value={editing.slug}
+                      onChange={e => upd('slug', e.target.value)}
+                      placeholder="auto-generated from title, e.g. dissertation-writing"
+                      style={inputStyle}
+                    />
+                    <div style={{ fontSize: 11.5, color: '#94a3b8', marginTop: 5 }}>
+                      Page address: <code style={{ background: '#f1f5f9', padding: '1px 6px', borderRadius: 5 }}>/services/{editing.slug ? editing.slug : '(from title)'}</code>. Leave blank to auto-generate.
+                    </div>
+                  </div>
+                  <div>
+                    <label style={lbl}>Detailed Description (HTML allowed)</label>
+                    <textarea
+                      value={editing.bodyHtml}
+                      onChange={e => upd('bodyHtml', e.target.value)}
+                      rows={8}
+                      placeholder={'<div class="lead">\n  <span class="highlight">Expert</span> dissertation help…\n</div>\n<h3>What you get</h3>\n<p>…</p>'}
+                      style={{ ...inputStyle, resize: 'vertical', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: 13 }}
+                    />
+                    <div style={{ fontSize: 11.5, color: '#94a3b8', marginTop: 5 }}>
+                      Shown on the service&apos;s own page. Supports custom elements like <code style={{ background: '#f1f5f9', padding: '1px 5px', borderRadius: 5 }}>&lt;div&gt;</code>, <code style={{ background: '#f1f5f9', padding: '1px 5px', borderRadius: 5 }}>&lt;span&gt;</code>, headings, lists and links.
+                    </div>
+                  </div>
+                  <div>
+                    <label style={lbl}>Benefits / Features (one per line)</label>
+                    <textarea
+                      value={(editing.benefits || []).join('\n')}
+                      onChange={e => upd('benefits', e.target.value.split('\n'))}
+                      rows={5}
+                      placeholder={'PhD-qualified subject experts\nPlagiarism-free, AI-free writing\nUnlimited free revisions\nOn-time delivery, every time'}
+                      style={{ ...inputStyle, resize: 'vertical' }}
+                    />
+                  </div>
+                </>
               )}
               <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, fontWeight: 600, color: '#475569', cursor: 'pointer' }}>
                 <input type="checkbox" checked={editing.published} onChange={e => upd('published', e.target.checked)} style={{ width: 16, height: 16 }} />

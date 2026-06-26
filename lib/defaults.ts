@@ -33,7 +33,31 @@ export type ContentItemData = {
   _id?: string; type: ContentType; order: number;
   title: string; subtitle: string; body: string; icon: string;
   rating: number; published: boolean;
+  // Service-detail fields (used by individual service pages). Optional so all
+  // existing content types and previously-saved items keep working unchanged.
+  slug?: string;        // SEO-friendly URL segment, e.g. "dissertation-writing"
+  bodyHtml?: string;    // rich detailed description — may contain div/span/etc.
+  benefits?: string[];  // bullet list of benefits / features
 };
+
+/* Slugify any title into a URL-safe segment. Pure + deterministic so the same
+ * title always maps to the same /services/<slug> path (used as a fallback when
+ * an item has no stored slug yet). */
+export function slugify(input: string): string {
+  return (input || '')
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 80) || 'item';
+}
+
+/* Canonical path to an individual service page. Prefers a stored slug and
+ * falls back to a slugified title so links resolve even before a slug is saved. */
+export function serviceHref(s: { slug?: string; title: string }): string {
+  return `/services/${s.slug && s.slug.trim() ? s.slug.trim() : slugify(s.title)}`;
+}
 
 export type SectionKey =
   | 'hero' | 'domains' | 'services' | 'how-it-works'
@@ -134,14 +158,18 @@ export const DEFAULT_HERO_STATS: HeroStat[] = [
 
 export const DEFAULT_CONTENT: Record<ContentType, ContentItemData[]> = {
   service: [
-    { type: 'service', order: 1, icon: '📝', title: 'Essay Help', body: 'Custom essays for any topic, length, or academic level with original research.', subtitle: '', rating: 5, published: true },
-    { type: 'service', order: 2, icon: '🎓', title: 'Dissertation & Thesis', body: 'End-to-end support from proposal to final submission for Masters & PhD.', subtitle: '', rating: 5, published: true },
-    { type: 'service', order: 3, icon: '📊', title: 'Report Writing', body: 'Analytical, technical, and business reports structured for clarity.', subtitle: '', rating: 5, published: true },
-    { type: 'service', order: 4, icon: '💼', title: 'Case Studies', body: 'In-depth case analysis with real-world solutions for business and law.', subtitle: '', rating: 5, published: true },
-    { type: 'service', order: 5, icon: '📄', title: 'CV & SOP Writing', body: 'Professional CVs and statements that get you noticed by top universities.', subtitle: '', rating: 5, published: true },
-    { type: 'service', order: 6, icon: '🔬', title: 'Research Papers', body: 'Well-cited, peer-reviewed standard research across all disciplines.', subtitle: '', rating: 5, published: true },
-    { type: 'service', order: 7, icon: '💻', title: 'Technical Writing', body: 'Engineering, CS, and IT assignments handled by domain specialists.', subtitle: '', rating: 5, published: true },
-    { type: 'service', order: 8, icon: '🧮', title: 'Finance & Stats', body: 'Complex calculations, analysis, and reports with precise methodology.', subtitle: '', rating: 5, published: true },
+    { type: 'service', order: 1, icon: '📝', title: 'Essay Help', slug: 'essay-help', body: 'Custom essays for any topic, length, or academic level with original research.',
+      bodyHtml: '<p>Our <span style="color:#2563a8;font-weight:600">essay writing experts</span> craft fully original, well-argued essays tailored to your topic, word count, and referencing style.</p><div style="background:#f5f7fa;border-radius:12px;padding:16px 18px;margin:18px 0;"><strong>Every essay includes</strong> a clear thesis, structured argument, credible citations and a plagiarism-free guarantee.</div><p>From short reflective pieces to argumentative and analytical essays, we cover all academic levels.</p>',
+      benefits: ['Any topic & academic level', 'Original, plagiarism-free writing', 'Your choice of referencing style', 'On-time delivery'], subtitle: '', rating: 5, published: true },
+    { type: 'service', order: 2, icon: '🎓', title: 'Dissertation & Thesis', slug: 'dissertation-thesis', body: 'End-to-end support from proposal to final submission for Masters & PhD.',
+      bodyHtml: '<p>Comprehensive <span style="color:#2563a8;font-weight:600">dissertation and thesis support</span> for Masters and PhD candidates — from topic selection and proposal through to the final defended draft.</p><h3>What we help with</h3><ul><li>Research proposals &amp; literature reviews</li><li>Methodology &amp; data analysis</li><li>Chapter-by-chapter writing &amp; editing</li></ul>',
+      benefits: ['Proposal to final submission', 'Subject-matched PhD writers', 'Methodology & data analysis', 'Unlimited free revisions'], subtitle: '', rating: 5, published: true },
+    { type: 'service', order: 3, icon: '📊', title: 'Report Writing', slug: 'report-writing', body: 'Analytical, technical, and business reports structured for clarity.', bodyHtml: '', benefits: ['Business, technical & lab reports', 'Clear structure & data visuals', 'Executive summaries included'], subtitle: '', rating: 5, published: true },
+    { type: 'service', order: 4, icon: '💼', title: 'Case Studies', slug: 'case-studies', body: 'In-depth case analysis with real-world solutions for business and law.', bodyHtml: '', benefits: ['Real-world frameworks', 'Business & law focus', 'Actionable recommendations'], subtitle: '', rating: 5, published: true },
+    { type: 'service', order: 5, icon: '📄', title: 'CV & SOP Writing', slug: 'cv-sop-writing', body: 'Professional CVs and statements that get you noticed by top universities.', bodyHtml: '', benefits: ['ATS-friendly formatting', 'University & job applications', 'Tailored to your goals'], subtitle: '', rating: 5, published: true },
+    { type: 'service', order: 6, icon: '🔬', title: 'Research Papers', slug: 'research-papers', body: 'Well-cited, peer-reviewed standard research across all disciplines.', bodyHtml: '', benefits: ['Peer-review standard', 'Accurate citations', 'All disciplines covered'], subtitle: '', rating: 5, published: true },
+    { type: 'service', order: 7, icon: '💻', title: 'Technical Writing', slug: 'technical-writing', body: 'Engineering, CS, and IT assignments handled by domain specialists.', bodyHtml: '', benefits: ['Engineering, CS & IT', 'Domain specialist writers', 'Code & documentation'], subtitle: '', rating: 5, published: true },
+    { type: 'service', order: 8, icon: '🧮', title: 'Finance & Stats', slug: 'finance-stats', body: 'Complex calculations, analysis, and reports with precise methodology.', bodyHtml: '', benefits: ['Statistical analysis', 'SPSS, R & Excel', 'Step-by-step working'], subtitle: '', rating: 5, published: true },
   ],
   reason: [
     { type: 'reason', order: 1, icon: '🤖', title: 'AI-Free Guarantee', body: '100% human-written content with no AI tools — verified and certified original.', subtitle: '', rating: 5, published: true },

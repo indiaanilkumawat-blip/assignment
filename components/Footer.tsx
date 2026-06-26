@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { SettingsData, PageData, DEFAULT_SETTINGS } from '@/lib/defaults';
+import { SettingsData, PageData, DEFAULT_SETTINGS, serviceHref } from '@/lib/defaults';
+import { InstagramIcon, FacebookIcon, LinkedinIcon, WhatsappIcon } from '@/components/SocialIcons';
 
 const FALLBACK_SERVICES = ['Essay Help', 'Dissertation Writing', 'Report Writing', 'CV Writing', 'SOP Writing', 'Case Study Help', 'Research Paper', 'Blog Writing'];
 const FALLBACK_DOMAINS = ['Law Assignment', 'Engineering', 'Nursing', 'Finance & Stats', 'Management & HR', 'Science', 'Psychology', 'Calculus'];
@@ -7,17 +8,20 @@ const FALLBACK_DOMAINS = ['Law Assignment', 'Engineering', 'Nursing', 'Finance &
 export default function Footer({
   settings = DEFAULT_SETTINGS,
   pages = [],
-  serviceTitles,
+  services,
   domainTitles,
 }: {
   settings?: SettingsData;
   pages?: PageData[];
-  serviceTitles?: string[];
+  services?: { title: string; slug?: string }[];
   domainTitles?: string[];
 }) {
   // Use admin content when provided; otherwise fall back to a generic list so
   // inner pages (which don't load content) still show a populated footer.
-  const services = serviceTitles ?? FALLBACK_SERVICES;
+  // When real services are passed we link each to its own detail page; the
+  // generic fallback list just points back to the services section.
+  const hasServiceLinks = Array.isArray(services);
+  const serviceItems = services ?? FALLBACK_SERVICES.map((title) => ({ title }));
   const domains = domainTitles ?? FALLBACK_DOMAINS;
   const waLink = `https://api.whatsapp.com/send/?phone=${settings.whatsapp}`;
   const a = settings.address;
@@ -25,10 +29,10 @@ export default function Footer({
     .filter(Boolean).join(', ');
 
   const socials = [
-    { href: settings.social.instagram, icon: '📸', label: 'Instagram' },
-    { href: settings.social.facebook, icon: '📘', label: 'Facebook' },
-    { href: settings.social.linkedin, icon: '💼', label: 'LinkedIn' },
-    { href: waLink, icon: '💬', label: 'WhatsApp' },
+    { href: settings.social.instagram, Icon: InstagramIcon, label: 'Instagram' },
+    { href: settings.social.facebook, Icon: FacebookIcon, label: 'Facebook' },
+    { href: settings.social.linkedin, Icon: LinkedinIcon, label: 'LinkedIn' },
+    { href: waLink, Icon: WhatsappIcon, label: 'WhatsApp' },
   ].filter(s => s.href);
 
   const footerPages = pages.filter(p => p.showInFooter);
@@ -54,32 +58,32 @@ export default function Footer({
                 `India's most trusted academic writing service with ${settings.stats.writers} expert writers and ${settings.stats.assignments} assignments delivered.`}
             </p>
             <div style={{ display: 'flex', gap: 10 }}>
-              {socials.map(({ href, icon, label }) => (
+              {socials.map(({ href, Icon, label }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer" title={label} aria-label={label}
-                  style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, textDecoration: 'none' }}
+                  style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.85)', textDecoration: 'none' }}
                   className="hover:bg-white/20">
-                  {icon}
+                  <Icon size={17} />
                 </a>
               ))}
             </div>
           </div>
 
           {/* Services */}
-          {services.length > 0 && (
+          {serviceItems.length > 0 && (
           <div>
             <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 18 }}>Services</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {services.map(s => (
-                <Link key={s} href="/contact" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: 13, fontWeight: 500 }} className="hover:text-white">{s}</Link>
+              {serviceItems.map(s => (
+                <Link key={s.title} href={hasServiceLinks ? serviceHref(s) : '/#services'} style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: 13, fontWeight: 500 }} className="hover:text-white">{s.title}</Link>
               ))}
             </div>
           </div>
           )}
 
-          {/* Domains */}
+          {/* Subjects */}
           {domains.length > 0 && (
           <div>
-            <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 18 }}>Domains</div>
+            <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 18 }}>Subjects</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {domains.map(d => (
                 <Link key={d} href="/contact" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: 13, fontWeight: 500 }} className="hover:text-white">{d}</Link>

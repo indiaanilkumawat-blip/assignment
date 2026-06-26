@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { SettingsData, SectionData, ContentItemData, DEFAULT_SETTINGS } from '@/lib/defaults';
+import { SettingsData, SectionData, ContentItemData, DEFAULT_SETTINGS, serviceHref } from '@/lib/defaults';
 
 /* Keys that appear as top-level nav links. */
 const NAV_KEYS: Record<string, true> = {
@@ -137,13 +137,13 @@ export default function Navbar({
                         <div>
                           <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10, paddingLeft: 8 }}>Services</div>
                           {services.map((s) => (
-                            <Link key={s._id || s.title} href="/contact" style={{ display: 'block', padding: '7px 10px', borderRadius: 8, fontSize: 13, color: 'var(--text)', textDecoration: 'none', fontWeight: 500 }} className="hover:bg-blue-50 hover:text-blue-700">{s.title}</Link>
+                            <Link key={s._id || s.title} href={serviceHref(s)} style={{ display: 'block', padding: '7px 10px', borderRadius: 8, fontSize: 13, color: 'var(--text)', textDecoration: 'none', fontWeight: 500 }} className="hover:bg-blue-50 hover:text-blue-700">{s.title}</Link>
                           ))}
                         </div>
                       )}
                       {domains.length > 0 && (
                         <div>
-                          <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10, paddingLeft: 8 }}>Domains</div>
+                          <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10, paddingLeft: 8 }}>Subjects</div>
                           {domains.map((d) => (
                             <Link key={d._id || d.title} href="/contact" style={{ display: 'block', padding: '7px 10px', borderRadius: 8, fontSize: 13, color: 'var(--text)', textDecoration: 'none', fontWeight: 500 }} className="hover:bg-blue-50 hover:text-blue-700">{d.title}</Link>
                           ))}

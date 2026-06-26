@@ -11,6 +11,11 @@ export interface IContentItem extends Document {
   icon: string; // emoji or short label
   rating: number; // testimonials
   published: boolean;
+  // Service-detail fields (individual service pages). Optional / defaulted so
+  // every other content type and any previously-saved item is unaffected.
+  slug: string;       // SEO-friendly URL segment for /services/<slug>
+  bodyHtml: string;   // rich detailed description (may contain div/span/etc.)
+  benefits: string[]; // benefits / features bullet list
   createdAt: Date;
   updatedAt: Date;
 }
@@ -30,6 +35,9 @@ const ContentItemSchema = new Schema<IContentItem>(
     icon: { type: String, default: '' },
     rating: { type: Number, default: 5 },
     published: { type: Boolean, default: true },
+    slug: { type: String, default: '', index: true, trim: true, lowercase: true },
+    bodyHtml: { type: String, default: '' },
+    benefits: { type: [String], default: [] },
   },
   { timestamps: true }
 );

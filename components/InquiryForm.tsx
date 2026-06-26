@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import type { SettingsData } from '@/lib/defaults';
 
 const serviceTypes = [
@@ -22,6 +22,25 @@ export default function InquiryForm({ settings }: { settings: SettingsData }) {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
+
+  // Prefill the form when arriving from a service page (/contact?service=Title).
+  // Reading window.location avoids needing a Suspense boundary for useSearchParams.
+  useEffect(() => {
+    const svc = new URLSearchParams(window.location.search).get('service');
+    if (!svc) return;
+    const lower = svc.toLowerCase();
+    const match = serviceTypes.find((t) => {
+      const tl = t.toLowerCase();
+      return tl === lower
+        || lower.includes(tl.split(/[/ ]/)[0])
+        || tl.includes(lower.split(/[ &]/)[0]);
+    });
+    setForm((prev) => ({
+      ...prev,
+      subject: prev.subject || svc,
+      serviceType: prev.serviceType || match || '',
+    }));
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });

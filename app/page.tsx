@@ -5,6 +5,7 @@ import {
   getSettings, getContent, getPublishedPages, getSections,
   SettingsData, SectionData,
 } from '@/lib/content';
+import { serviceHref } from '@/lib/defaults';
 
 export const dynamic = 'force-dynamic';
 
@@ -182,14 +183,14 @@ export default async function HomePage() {
               <SectionHeading sec={sec} settings={settings} />
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
                 {services.map((s) => (
-                  <div key={s._id || s.title} className="card-hover" style={{ background: 'white', borderRadius: 20, padding: '28px 24px', border: '1.5px solid var(--border)', boxShadow: '0 2px 12px rgba(15,33,55,0.04)' }}>
+                  <Link key={s._id || s.title} href={serviceHref(s)} className="card-hover" style={{ display: 'block', background: 'white', borderRadius: 20, padding: '28px 24px', border: '1.5px solid var(--border)', boxShadow: '0 2px 12px rgba(15,33,55,0.04)', textDecoration: 'none' }}>
                     <div style={{ width: 52, height: 52, borderRadius: 14, marginBottom: 18, background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, border: '1.5px solid var(--border)' }}>{s.icon}</div>
                     <h3 style={{ fontWeight: 700, fontSize: 15, color: 'var(--primary)', marginBottom: 10 }}>{s.title}</h3>
                     <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.7 }}>{s.body}</p>
-                    <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 16, fontSize: 12, fontWeight: 700, color: 'var(--primary-light)', textDecoration: 'none' }}>
-                      Get Started →
-                    </Link>
-                  </div>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 16, fontSize: 12, fontWeight: 700, color: 'var(--primary-light)' }}>
+                      Learn More →
+                    </span>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -230,8 +231,8 @@ export default async function HomePage() {
         return (
           <section key={sec.key} id="about" style={{ padding: '88px 0', background: 'var(--bg)' }}>
             <div style={box(sec)}>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                <div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+                <div className="lg:sticky" style={{ top: 110 }}>
                   {sec.tag && <div className="section-tag mb-6">{sec.tag}</div>}
                   {fill(sec.heading, settings) && (
                     <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, color: 'var(--primary)', marginBottom: 18, letterSpacing: '-0.01em' }}>
@@ -245,9 +246,9 @@ export default async function HomePage() {
                     Submit an Inquiry →
                   </Link>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 items-stretch">
                   {reasons.map((r) => (
-                    <div key={r._id || r.title} className="card-hover" style={{ background: 'white', borderRadius: 18, padding: '22px 20px', border: '1.5px solid var(--border)', boxShadow: '0 2px 12px rgba(15,33,55,0.04)' }}>
+                    <div key={r._id || r.title} className="card-hover" style={{ background: 'white', borderRadius: 18, padding: '22px 20px', border: '1.5px solid var(--border)', boxShadow: '0 2px 12px rgba(15,33,55,0.04)', height: '100%', display: 'flex', flexDirection: 'column' }}>
                       <div style={{ fontSize: 26, marginBottom: 12 }}>{r.icon}</div>
                       <h3 style={{ fontWeight: 700, fontSize: 14, color: 'var(--primary)', marginBottom: 8 }}>{r.title}</h3>
                       <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.65 }}>{r.body}</p>
@@ -399,7 +400,7 @@ export default async function HomePage() {
       <main>
         {visible.map((sec) => render(sec))}
       </main>
-      <Footer settings={settings} pages={pages} serviceTitles={services.map((s) => s.title)} domainTitles={domains.map((d) => d.title)} />
+      <Footer settings={settings} pages={pages} services={services.map((s) => ({ title: s.title, slug: s.slug }))} domainTitles={domains.map((d) => d.title)} />
 
       <a href={waLink} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" style={{ position: 'fixed', bottom: 24, right: 20, zIndex: 100, width: 56, height: 56, borderRadius: '50%', background: '#25d366', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 28px rgba(37,211,102,0.45)', fontSize: 28, textDecoration: 'none' }} className="hover:scale-110">
         💬
