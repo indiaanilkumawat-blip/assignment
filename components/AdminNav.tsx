@@ -8,6 +8,7 @@ const TABS = [
   { key: 'content', label: '🧩 Content', href: '/admin/content' },
   { key: 'pages', label: '📄 Pages', href: '/admin/pages' },
   { key: 'settings', label: '⚙️ Settings', href: '/admin/settings' },
+  { key: 'password', label: '🔒 Password', href: '/admin/password' },
 ];
 
 export default function AdminNav({ active }: { active: string }) {
@@ -22,7 +23,10 @@ export default function AdminNav({ active }: { active: string }) {
     <header style={{ background: 'linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%)', padding: '12px 20px', position: 'sticky', top: 0, zIndex: 50 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 34, height: 34, borderRadius: 9, background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: '#1a3a5c', fontSize: 17 }}>A</div>
+          <div style={{ width: 34, height: 34, borderRadius: 9, background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 4 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo-mark.png" alt="Assignment Hub" width={26} height={26} style={{ width: 26, height: 26, objectFit: 'contain', display: 'block' }} />
+          </div>
           <div style={{ fontFamily: 'serif', fontSize: 15, fontWeight: 800, color: 'white', whiteSpace: 'nowrap' }}>Assignment Hub — Admin</div>
         </div>
 

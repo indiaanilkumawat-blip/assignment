@@ -34,13 +34,9 @@ export default function AdminLoginPage() {
       <div style={{ background: 'white', borderRadius: 24, padding: 40, width: '100%', maxWidth: 420, boxShadow: '0 24px 60px rgba(0,0,0,0.3)' }}>
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <div style={{
-            width: 64, height: 64, borderRadius: 18, margin: '0 auto 16px',
-            background: 'linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 28, fontWeight: 800, color: 'white',
-          }}>A</div>
-          <h1 style={{ fontFamily: 'var(--font-playfair, serif)', fontSize: 24, fontWeight: 800, color: '#1a3a5c', marginBottom: 4 }}>Admin Panel</h1>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="The Assignment Hub" style={{ width: 200, maxWidth: '70%', height: 'auto', margin: '0 auto 12px', display: 'block' }} />
+          <h1 style={{ fontFamily: 'var(--font-display, serif)', fontSize: 24, fontWeight: 800, color: '#1a3a5c', marginBottom: 4 }}>Admin Panel</h1>
           <p style={{ fontSize: 14, color: '#64748b' }}>The Assignment Hub — Anil Kumawat</p>
         </div>
 

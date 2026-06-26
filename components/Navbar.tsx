@@ -105,12 +105,14 @@ export default function Navbar({
           {/* Logo */}
           <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }} aria-label={settings.siteName}>
             <div style={{
-              width: 42, height: 42, borderRadius: 12, flexShrink: 0,
-              background: 'linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: '#0f2137', fontSize: 20, fontWeight: 800, fontFamily: 'var(--font-display)',
-              boxShadow: '0 4px 14px rgba(232,160,32,0.35)',
-            }}>{(settings.siteName || 'A').charAt(0)}</div>
+              width: 44, height: 44, borderRadius: 12, flexShrink: 0,
+              background: '#ffffff',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 5,
+              boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
+            }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo-mark.png" alt={settings.siteName} width={34} height={34} style={{ width: 34, height: 34, objectFit: 'contain', display: 'block' }} />
+            </div>
             <div style={{ minWidth: 0 }}>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 20, color: 'white', lineHeight: 1.1, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
                 {settings.siteName}

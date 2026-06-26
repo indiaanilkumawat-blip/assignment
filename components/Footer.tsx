@@ -47,7 +47,10 @@ export default function Footer({
           {/* Brand + business info */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
-              <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 800 }}>A</div>
+              <div style={{ width: 44, height: 44, borderRadius: 12, background: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 5, flexShrink: 0 }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/logo-mark.png" alt={settings.siteName} width={34} height={34} style={{ width: 34, height: 34, objectFit: 'contain', display: 'block' }} />
+              </div>
               <div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 20, lineHeight: 1.1 }}>{settings.siteName}</div>
                 <div style={{ fontSize: 9, opacity: 0.5, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{settings.tagline}</div>
