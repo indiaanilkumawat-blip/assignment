@@ -9,8 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        playfair: ['var(--font-playfair)', 'serif'],
-        dm: ['var(--font-dm)', 'sans-serif'],
+        poppins: ['var(--font-display)', 'sans-serif'],
+        inter: ['var(--font-body)', 'sans-serif'],
+        display: ['var(--font-display)', 'sans-serif'],
       },
     },
   },

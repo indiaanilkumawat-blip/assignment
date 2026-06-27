@@ -6,6 +6,7 @@ import {
   SettingsData, SectionData,
 } from '@/lib/content';
 import { serviceHref } from '@/lib/defaults';
+import { IconArrowRight, IconWhatsApp } from '@/components/Icons';
 
 export const dynamic = 'force-dynamic';
 
@@ -132,11 +133,11 @@ export default async function HomePage() {
                     </p>
                   )}
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>
-                    <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 34px', borderRadius: 13, fontWeight: 700, fontSize: 15, background: 'var(--accent)', color: 'white', textDecoration: 'none', boxShadow: '0 8px 28px rgba(232,160,32,0.4)' }}>
-                      Get Help Now →
+                    <Link href="/contact" className="btn btn-accent">
+                      Get Help Now <IconArrowRight size={18} />
                     </Link>
-                    <a href={waLink} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '15px 34px', borderRadius: 13, fontWeight: 600, fontSize: 15, background: 'rgba(37,211,102,0.15)', color: '#4ade80', textDecoration: 'none', border: '1.5px solid rgba(37,211,102,0.3)' }}>
-                      💬 WhatsApp Us
+                    <a href={waLink} target="_blank" rel="noopener noreferrer" className="btn btn-wa">
+                      <IconWhatsApp size={18} /> WhatsApp Us
                     </a>
                   </div>
                 </div>
@@ -181,14 +182,14 @@ export default async function HomePage() {
           <section key={sec.key} id="services" style={{ padding: '88px 0', background: 'var(--bg-warm)' }}>
             <div style={box(sec)}>
               <SectionHeading sec={sec} settings={settings} />
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 card-grid items-stretch">
                 {services.map((s) => (
-                  <Link key={s._id || s.title} href={serviceHref(s)} className="card-hover" style={{ display: 'block', background: 'white', borderRadius: 20, padding: '28px 24px', border: '1.5px solid var(--border)', boxShadow: '0 2px 12px rgba(15,33,55,0.04)', textDecoration: 'none' }}>
+                  <Link key={s._id || s.title} href={serviceHref(s)} className="card-hover card-col" style={{ background: 'white', borderRadius: 20, padding: '28px 24px', border: '1.5px solid var(--border)', boxShadow: '0 2px 12px rgba(15,33,55,0.04)', textDecoration: 'none' }}>
                     <div style={{ width: 52, height: 52, borderRadius: 14, marginBottom: 18, background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, border: '1.5px solid var(--border)' }}>{s.icon}</div>
                     <h3 style={{ fontWeight: 700, fontSize: 15, color: 'var(--primary)', marginBottom: 10 }}>{s.title}</h3>
                     <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.7 }}>{s.body}</p>
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 16, fontSize: 12, fontWeight: 700, color: 'var(--primary-light)' }}>
-                      Learn More →
+                    <span className="card-cta" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, paddingTop: 16, fontSize: 12, fontWeight: 700, color: 'var(--primary-light)' }}>
+                      Learn More <IconArrowRight size={14} />
                     </span>
                   </Link>
                 ))}
@@ -242,8 +243,8 @@ export default async function HomePage() {
                   {aboutText && (
                     <p style={{ color: 'var(--text-muted)', fontSize: 16, lineHeight: 1.85, marginBottom: 28 }}>{aboutText}</p>
                   )}
-                  <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 30px', borderRadius: 12, fontWeight: 700, fontSize: 14, background: 'var(--primary)', color: 'white', textDecoration: 'none', boxShadow: '0 6px 20px rgba(15,33,55,0.18)' }}>
-                    Submit an Inquiry →
+                  <Link href="/contact" className="btn btn-primary btn-sm">
+                    Submit an Inquiry <IconArrowRight size={16} />
                   </Link>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 items-stretch">
@@ -319,11 +320,11 @@ export default async function HomePage() {
                 <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 17, marginBottom: 36, lineHeight: 1.7 }}>{subheading}</p>
               )}
               <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
-                <Link href="/contact" style={{ display: 'inline-block', padding: '16px 40px', borderRadius: 13, fontWeight: 700, fontSize: 15, background: 'var(--accent)', color: 'white', textDecoration: 'none', boxShadow: '0 8px 28px rgba(232,160,32,0.35)' }}>
-                  📋 Get Help Now
+                <Link href="/contact" className="btn btn-accent">
+                  Get Help Now <IconArrowRight size={18} />
                 </Link>
-                <a href={waLink} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', padding: '16px 40px', borderRadius: 13, fontWeight: 600, fontSize: 15, background: 'rgba(255,255,255,0.1)', color: 'white', textDecoration: 'none', border: '1.5px solid rgba(255,255,255,0.25)' }}>
-                  💬 Chat on WhatsApp
+                <a href={waLink} target="_blank" rel="noopener noreferrer" className="btn btn-wa">
+                  <IconWhatsApp size={18} /> Chat on WhatsApp
                 </a>
               </div>
             </div>
@@ -402,8 +403,8 @@ export default async function HomePage() {
       </main>
       <Footer settings={settings} pages={pages} services={services.map((s) => ({ title: s.title, slug: s.slug }))} domainTitles={domains.map((d) => d.title)} />
 
-      <a href={waLink} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" style={{ position: 'fixed', bottom: 24, right: 20, zIndex: 100, width: 56, height: 56, borderRadius: '50%', background: '#25d366', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 28px rgba(37,211,102,0.45)', fontSize: 28, textDecoration: 'none' }} className="hover:scale-110">
-        💬
+      <a href={waLink} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" style={{ position: 'fixed', bottom: 24, right: 20, zIndex: 100, width: 56, height: 56, borderRadius: '50%', background: '#25d366', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 28px rgba(37,211,102,0.45)', textDecoration: 'none' }} className="hover:scale-110">
+        <IconWhatsApp size={28} />
       </a>
     </>
   );

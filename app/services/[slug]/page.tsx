@@ -7,6 +7,7 @@ import {
   getServiceBySlug, getSettings, getPublishedPages, getContent,
 } from '@/lib/content';
 import { serviceHref } from '@/lib/defaults';
+import { IconArrowRight, IconSend, IconWhatsApp, IconPhone, IconDoc, IconCheck } from '@/components/Icons';
 
 export const dynamic = 'force-dynamic';
 
@@ -88,7 +89,7 @@ export default async function ServicePage({ params }: Props) {
           padding: '44px 0 64px', position: 'relative', overflow: 'hidden',
         }}>
           <div style={{ position: 'absolute', top: -80, right: -80, width: 320, height: 320, borderRadius: '50%', background: 'rgba(232,160,32,0.08)', filter: 'blur(40px)', pointerEvents: 'none' }} />
-          <div className="max-w-5xl mx-auto px-6">
+          <div className="svc-shell">
             <nav style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', marginBottom: 18 }}>
               <Link href="/" style={{ color: 'rgba(255,255,255,0.55)', textDecoration: 'none' }}>Home</Link>
               <span style={{ margin: '0 8px' }}>/</span>
@@ -114,104 +115,103 @@ export default async function ServicePage({ params }: Props) {
           </div>
         </div>
 
-        {/* Body */}
-        <div className="max-w-5xl mx-auto px-6" style={{ marginTop: -32, paddingBottom: 80 }}>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        {/* Body — centered content (≤780px) + far-right sticky inquiry rail (320px) */}
+        <div className="svc-shell" style={{ marginTop: -32, paddingBottom: 96 }}>
+          <div className="svc-layout">
 
-            {/* Main content */}
-            <div className="lg:col-span-2" style={{
-              background: 'white', borderRadius: 20, padding: 'clamp(24px, 5vw, 44px)',
-              boxShadow: '0 8px 48px rgba(15,33,55,0.08)', border: '1px solid var(--border)',
-            }}>
-              {service.bodyHtml ? (
-                <article
-                  className="cms-content"
-                  style={{ color: 'var(--text)', fontSize: 15.5, lineHeight: 1.8 }}
-                  dangerouslySetInnerHTML={{ __html: service.bodyHtml }}
-                />
-              ) : (
-                <p style={{ color: 'var(--text-muted)', fontSize: 15.5, lineHeight: 1.8 }}>
-                  {service.body || `Get expert help with ${service.title.toLowerCase()} from our qualified academic writers. Reach out and we'll get back to you within minutes.`}
-                </p>
-              )}
+            {/* Main content — centered in its column, generous reading width */}
+            <div className="svc-main">
+              <div className="svc-main-inner" style={{
+                background: 'white', borderRadius: 20, padding: 'clamp(26px, 4vw, 48px)',
+                boxShadow: '0 8px 48px rgba(15,33,55,0.08)', border: '1px solid var(--border)',
+              }}>
+                {service.bodyHtml ? (
+                  <article
+                    className="cms-content"
+                    style={{ color: 'var(--text)', fontSize: 15.5, lineHeight: 1.85 }}
+                    dangerouslySetInnerHTML={{ __html: service.bodyHtml }}
+                  />
+                ) : (
+                  <p style={{ color: 'var(--text-muted)', fontSize: 15.5, lineHeight: 1.85 }}>
+                    {service.body || `Get expert help with ${service.title.toLowerCase()} from our qualified academic writers. Reach out and we'll get back to you within minutes.`}
+                  </p>
+                )}
 
-              {/* Benefits / features */}
-              {service.benefits && service.benefits.length > 0 && (
-                <div style={{ marginTop: 36 }}>
-                  <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, color: 'var(--primary)', marginBottom: 18 }}>
-                    Benefits &amp; Features
-                  </h2>
-                  <ul style={{ listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
-                    {service.benefits.map((b, i) => (
-                      <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 14, color: 'var(--text)', lineHeight: 1.6 }}>
-                        <span style={{ width: 22, height: 22, borderRadius: '50%', background: 'rgba(37,211,102,0.14)', color: '#15803d', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, flexShrink: 0, marginTop: 1 }}>✓</span>
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+                {/* Benefits / features */}
+                {service.benefits && service.benefits.length > 0 && (
+                  <div style={{ marginTop: 40 }}>
+                    <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, color: 'var(--primary)', marginBottom: 20 }}>
+                      Benefits &amp; Features
+                    </h2>
+                    <ul style={{ listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 14 }}>
+                      {service.benefits.map((b, i) => (
+                        <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 11, fontSize: 14, color: 'var(--text)', lineHeight: 1.6 }}>
+                          <span style={{ color: '#15803d', flexShrink: 0, marginTop: 1, display: 'inline-flex' }}>
+                            <IconCheck size={20} />
+                          </span>
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Sticky inquiry / contact rail */}
-            <aside className="lg:sticky" style={{ top: 110, display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {/* Far-right inquiry rail — sticky on desktop, static on mobile */}
+            <aside className="svc-rail">
               <div style={{
                 background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%)',
-                borderRadius: 20, padding: '26px 24px', color: 'white',
+                borderRadius: 20, padding: '26px 22px', color: 'white',
                 boxShadow: '0 16px 40px rgba(15,33,55,0.18)',
               }}>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 8 }}>
                   Get Started
                 </div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, lineHeight: 1.25, marginBottom: 8 }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 21, fontWeight: 700, lineHeight: 1.25, marginBottom: 8 }}>
                   Need help with {service.title}?
                 </div>
                 <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, marginBottom: 20 }}>
                   Send your requirements and our expert team responds within minutes.
                 </p>
-                <Link href={inquiryLink} style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                  padding: '14px 18px', borderRadius: 13, background: 'var(--accent)', color: '#0f2137',
-                  textDecoration: 'none', fontSize: 14.5, fontWeight: 700, marginBottom: 12,
-                  boxShadow: '0 8px 24px rgba(232,160,32,0.35)',
-                }}>
-                  📋 Send an Inquiry →
+                <Link href={inquiryLink} className="btn btn-accent btn-sm btn-block" style={{ marginBottom: 12 }}>
+                  <IconSend size={18} /> Send an Inquiry
                 </Link>
-                <a href={waLink} target="_blank" rel="noopener noreferrer" style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                  padding: '14px 18px', borderRadius: 13, background: '#25d366', color: 'white',
-                  textDecoration: 'none', fontSize: 14.5, fontWeight: 700,
-                  boxShadow: '0 6px 20px rgba(37,211,102,0.3)',
-                }}>
-                  💬 Chat on WhatsApp
+                <a href={waLink} target="_blank" rel="noopener noreferrer" className="btn btn-wa btn-sm btn-block">
+                  <IconWhatsApp size={18} /> Chat on WhatsApp
                 </a>
                 <a href={`tel:${settings.phone.replace(/\s/g, '')}`} style={{
-                  display: 'block', textAlign: 'center', marginTop: 16,
-                  fontSize: 13, color: 'rgba(255,255,255,0.75)', textDecoration: 'none', fontWeight: 600,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 16,
+                  fontSize: 13, color: 'rgba(255,255,255,0.78)', textDecoration: 'none', fontWeight: 600,
                 }}>
-                  Or call {settings.phone}
+                  <IconPhone size={14} /> Or call {settings.phone}
                 </a>
               </div>
             </aside>
           </div>
 
-          {/* Other services */}
+          {/* Other services — equal-height cards, consistent spacing */}
           {services.length > 1 && (
-            <div style={{ marginTop: 56 }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, color: 'var(--primary)', marginBottom: 18 }}>
+            <div className="svc-main-inner" style={{ marginTop: 72 }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, color: 'var(--primary)', marginBottom: 20, textAlign: 'center' }}>
                 Other Services
               </h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 card-grid items-stretch">
                 {services
                   .filter((s) => (s.slug || '') !== service.slug && s.title !== service.title)
-                  .slice(0, 8)
+                  .slice(0, 6)
                   .map((s) => (
-                    <Link key={s._id || s.title} href={serviceHref(s)} className="card-hover" style={{
-                      display: 'block', background: 'white', borderRadius: 16, padding: '18px 16px',
+                    <Link key={s._id || s.title} href={serviceHref(s)} className="card-hover card-col" style={{
+                      background: 'white', borderRadius: 16, padding: '18px 16px',
                       border: '1.5px solid var(--border)', textDecoration: 'none',
                     }}>
-                      <div style={{ fontSize: 22, marginBottom: 8 }}>{s.icon || '📝'}</div>
-                      <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--primary)' }}>{s.title}</div>
+                      <div style={{ color: 'var(--primary-light)', marginBottom: 10, display: 'inline-flex' }}>
+                        <IconDoc size={22} />
+                      </div>
+                      <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--primary)', lineHeight: 1.4 }}>{s.title}</div>
+                      <span className="card-cta" style={{ display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 12, fontSize: 12, fontWeight: 700, color: 'var(--primary-light)' }}>
+                        View <IconArrowRight size={14} />
+                      </span>
                     </Link>
                   ))}
               </div>
@@ -222,8 +222,8 @@ export default async function ServicePage({ params }: Props) {
 
       <Footer settings={settings} pages={pages} services={services.map((s) => ({ title: s.title, slug: s.slug }))} domainTitles={domains.map((d) => d.title)} />
 
-      <a href={waLink} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" style={{ position: 'fixed', bottom: 24, right: 20, zIndex: 100, width: 56, height: 56, borderRadius: '50%', background: '#25d366', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 28px rgba(37,211,102,0.45)', fontSize: 28, textDecoration: 'none' }} className="hover:scale-110">
-        💬
+      <a href={waLink} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" style={{ position: 'fixed', bottom: 24, right: 20, zIndex: 100, width: 56, height: 56, borderRadius: '50%', background: '#25d366', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 28px rgba(37,211,102,0.45)', textDecoration: 'none' }} className="hover:scale-110">
+        <IconWhatsApp size={28} />
       </a>
     </>
   );
