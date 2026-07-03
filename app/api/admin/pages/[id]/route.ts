@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePublic } from '@/lib/revalidate';
 import connectDB from '@/lib/mongodb';
 import Page from '@/models/Page';
 import { isAuthed } from '@/lib/auth';
@@ -28,6 +29,7 @@ export async function PUT(req: NextRequest, { params }: Ctx) {
     delete body.slug; // slug is immutable after creation to keep URLs stable
     const page = await Page.findByIdAndUpdate(id, { $set: body }, { new: true });
     if (!page) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    revalidatePublic();
     return NextResponse.json({ success: true, page });
   } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
@@ -40,6 +42,7 @@ export async function DELETE(req: NextRequest, { params }: Ctx) {
     await connectDB();
     const { id } = await params;
     await Page.findByIdAndDelete(id);
+    revalidatePublic();
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 });

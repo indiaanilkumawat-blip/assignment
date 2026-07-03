@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePublic } from '@/lib/revalidate';
 import connectDB from '@/lib/mongodb';
 import Section from '@/models/Section';
 import { isAuthed } from '@/lib/auth';
@@ -47,6 +48,7 @@ export async function PATCH(req: NextRequest) {
     const update = pick(rest);
     const section = await Section.findByIdAndUpdate(id, { $set: update }, { new: true });
     if (!section) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    revalidatePublic();
     return NextResponse.json({ success: true, section });
   } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
@@ -68,6 +70,7 @@ export async function PUT(req: NextRequest) {
       )
     );
     const fresh = await Section.find({}).sort({ order: 1 }).lean();
+    revalidatePublic();
     return NextResponse.json({ success: true, sections: fresh });
   } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
@@ -82,6 +85,7 @@ export async function POST(req: NextRequest) {
     await Section.deleteMany({});
     await Section.insertMany(DEFAULT_SECTIONS);
     const fresh = await Section.find({}).sort({ order: 1 }).lean();
+    revalidatePublic();
     return NextResponse.json({ success: true, sections: fresh, message: 'Sections reset to defaults.' });
   } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 });

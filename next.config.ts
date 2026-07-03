@@ -1,14 +1,11 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // Required for Vercel deployment
-  experimental: {},
-  // Ensure environment variables are available
-  env: {
-    MONGODB_URI: process.env.MONGODB_URI,
-    JWT_SECRET: process.env.JWT_SECRET,
-    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
-  },
+  // SECURITY: do NOT list MONGODB_URI / JWT_SECRET / ADMIN_PASSWORD in an
+  // `env` block here — that inlines them into the built JS bundles.
+  // Server code reads them from process.env at runtime on Vercel.
+  poweredByHeader: false,
+  compress: true,
 };
 
 export default nextConfig;

@@ -8,7 +8,9 @@ import {
 import { serviceHref } from '@/lib/defaults';
 import { IconArrowRight, IconWhatsApp } from '@/components/Icons';
 
-export const dynamic = 'force-dynamic';
+// ISR: serve cached HTML from the CDN, re-render in the background at most
+// every 5 minutes. Admin saves also trigger instant revalidation (lib/revalidate.ts).
+export const revalidate = 300;
 
 const stepPalette = [
   { accent: '#dbeafe', text: '#1e40af' },

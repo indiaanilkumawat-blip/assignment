@@ -4,7 +4,9 @@ import Footer from '@/components/Footer';
 import InquiryForm from '@/components/InquiryForm';
 import { getSettings, getPublishedPages } from '@/lib/content';
 
-export const dynamic = 'force-dynamic';
+// ISR: serve cached HTML from the CDN, re-render in the background at most
+// every 5 minutes. Admin saves also trigger instant revalidation (lib/revalidate.ts).
+export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();

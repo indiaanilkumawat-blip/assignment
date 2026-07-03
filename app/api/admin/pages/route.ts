@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePublic } from '@/lib/revalidate';
 import connectDB from '@/lib/mongodb';
 import Page from '@/models/Page';
 import { isAuthed } from '@/lib/auth';
@@ -50,6 +51,7 @@ export async function POST(req: NextRequest) {
       showInFooter: body.showInFooter ?? true,
       order: body.order ?? 0,
     });
+    revalidatePublic();
     return NextResponse.json({ success: true, page }, { status: 201 });
   } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 });

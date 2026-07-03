@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePublic } from '@/lib/revalidate';
 import connectDB from '@/lib/mongodb';
 import ContentItem from '@/models/ContentItem';
 import { isAuthed } from '@/lib/auth';
@@ -69,6 +70,7 @@ export async function POST(req: NextRequest) {
       bodyHtml: isService ? (body.bodyHtml || '') : '',
       benefits: isService ? normBenefits(body.benefits) : [],
     });
+    revalidatePublic();
     return NextResponse.json({ success: true, item }, { status: 201 });
   } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
@@ -99,6 +101,7 @@ export async function PATCH(req: NextRequest) {
 
     const item = await ContentItem.findByIdAndUpdate(id, { $set: update }, { new: true });
     if (!item) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    revalidatePublic();
     return NextResponse.json({ success: true, item });
   } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
@@ -111,6 +114,7 @@ export async function DELETE(req: NextRequest) {
     await connectDB();
     const { id } = await req.json();
     await ContentItem.findByIdAndDelete(id);
+    revalidatePublic();
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 });

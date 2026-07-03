@@ -31,6 +31,9 @@ async function connectDB() {
       .connect(MONGODB_URI, {
         bufferCommands: false,
         serverSelectionTimeoutMS: 10000,
+        maxPoolSize: 10,
+        minPoolSize: 0,
+        maxIdleTimeMS: 60000,
         socketTimeoutMS: 45000,
       })
       .then((m) => m);

@@ -9,7 +9,17 @@ import {
 import { serviceHref } from '@/lib/defaults';
 import { IconArrowRight, IconSend, IconWhatsApp, IconPhone, IconDoc, IconCheck } from '@/components/Icons';
 
-export const dynamic = 'force-dynamic';
+// ISR: serve cached HTML from the CDN, re-render in the background at most
+// every 5 minutes. Admin saves also trigger instant revalidation (lib/revalidate.ts).
+export const revalidate = 300;
+
+/* Pre-render known service slugs at build; unknown slugs render on first
+   request and are then cached (ISR). */
+export async function generateStaticParams() {
+  const { getServiceSlugs } = await import('@/lib/content');
+  const slugs = await getServiceSlugs();
+  return slugs.map((slug) => ({ slug }));
+}
 
 type Props = { params: Promise<{ slug: string }> };
 

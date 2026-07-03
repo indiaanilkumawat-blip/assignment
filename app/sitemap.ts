@@ -1,7 +1,9 @@
 import type { MetadataRoute } from 'next';
 import { getSettings, getPublishedPages, getServiceSlugs } from '@/lib/content';
 
-export const dynamic = 'force-dynamic';
+// ISR: serve cached HTML from the CDN, re-render in the background at most
+// every 5 minutes. Admin saves also trigger instant revalidation (lib/revalidate.ts).
+export const revalidate = 300;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [settings, pages, serviceSlugs] = await Promise.all([

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePublic } from '@/lib/revalidate';
 import connectDB from '@/lib/mongodb';
 import Settings from '@/models/Settings';
 import Page from '@/models/Page';
@@ -91,6 +92,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    revalidatePublic();
     return NextResponse.json({
       success: true,
       settingsId: String(settings._id),

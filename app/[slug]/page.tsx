@@ -4,7 +4,15 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { getPageBySlug, getSettings, getPublishedPages } from '@/lib/content';
 
-export const dynamic = 'force-dynamic';
+// ISR: serve cached HTML from the CDN, re-render in the background at most
+// every 5 minutes. Admin saves also trigger instant revalidation (lib/revalidate.ts).
+export const revalidate = 300;
+
+/* Enable ISR for CMS pages: each slug renders on first request, then serves
+   from cache until revalidated. */
+export async function generateStaticParams() {
+  return [];
+}
 
 type Props = { params: Promise<{ slug: string }> };
 

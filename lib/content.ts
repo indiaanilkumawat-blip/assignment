@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import connectDB from '@/lib/mongodb';
 import Settings, { ISettings } from '@/models/Settings';
 import Page, { IPage } from '@/models/Page';
@@ -31,7 +32,7 @@ function toSettingsData(doc: ISettings): SettingsData {
   };
 }
 
-export async function getSettings(): Promise<SettingsData> {
+export const getSettings = cache(async (): Promise<SettingsData> => {
   try {
     await connectDB();
     const doc = await Settings.findOne({ key: 'global' }).lean<ISettings>();
@@ -40,9 +41,9 @@ export async function getSettings(): Promise<SettingsData> {
   } catch {
     return DEFAULT_SETTINGS;
   }
-}
+});
 
-export async function getContent(type: ContentType): Promise<ContentItemData[]> {
+export const getContent = cache(async (type: ContentType): Promise<ContentItemData[]> => {
   try {
     await connectDB();
     const docs = await ContentItem.find({ type, published: true }).sort({ order: 1 }).lean();
@@ -58,14 +59,14 @@ export async function getContent(type: ContentType): Promise<ContentItemData[]> 
   } catch {
     return [];
   }
-}
+});
 
 /**
  * Section configuration that drives the homepage layout. If the DB has no
  * Section rows yet, fall back to the in-memory defaults so the page still
  * renders — the admin "Sections" page persists editable copies on first open.
  */
-export async function getSections(): Promise<SectionData[]> {
+export const getSections = cache(async (): Promise<SectionData[]> => {
   try {
     await connectDB();
     const docs = await Section.find({}).sort({ order: 1 }).lean<ISection[]>();
@@ -79,7 +80,7 @@ export async function getSections(): Promise<SectionData[]> {
   } catch {
     return DEFAULT_SECTIONS;
   }
-}
+});
 
 /**
  * Look up ONE published service by its URL slug for the individual service
@@ -87,7 +88,7 @@ export async function getSections(): Promise<SectionData[]> {
  * existed (empty slug), it falls back to matching a slugified title so links
  * built from titles still resolve. Returns null when nothing matches.
  */
-export async function getServiceBySlug(slug: string): Promise<ContentItemData | null> {
+export const getServiceBySlug = cache(async (slug: string): Promise<ContentItemData | null> => {
   try {
     await connectDB();
     const target = slugify(slug);
@@ -104,10 +105,10 @@ export async function getServiceBySlug(slug: string): Promise<ContentItemData | 
   } catch {
     return null;
   }
-}
+});
 
 /** All published service slugs — used by the sitemap and static params. */
-export async function getServiceSlugs(): Promise<string[]> {
+export const getServiceSlugs = cache(async (): Promise<string[]> => {
   try {
     await connectDB();
     const docs = await ContentItem.find({ type: 'service', published: true }).select('slug title').lean();
@@ -115,9 +116,9 @@ export async function getServiceSlugs(): Promise<string[]> {
   } catch {
     return [];
   }
-}
+});
 
-export async function getPublishedPages(): Promise<PageData[]> {
+export const getPublishedPages = cache(async (): Promise<PageData[]> => {
   try {
     await connectDB();
     const docs = await Page.find({ published: true }).sort({ order: 1 }).lean<IPage[]>();
@@ -125,9 +126,9 @@ export async function getPublishedPages(): Promise<PageData[]> {
   } catch {
     return [];
   }
-}
+});
 
-export async function getPageBySlug(slug: string): Promise<PageData | null> {
+export const getPageBySlug = cache(async (slug: string): Promise<PageData | null> => {
   try {
     await connectDB();
     const doc = await Page.findOne({ slug, published: true }).lean<IPage>();
@@ -135,7 +136,7 @@ export async function getPageBySlug(slug: string): Promise<PageData | null> {
   } catch {
     return null;
   }
-}
+});
 
 function mapPage(d: IPage): PageData {
   return {
