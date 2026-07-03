@@ -4,6 +4,7 @@ import './globals.css';
 import { getSettings } from '@/lib/content';
 
 const GTM_ID = 'GTM-KBS32BXG';
+const GA_ID = 'G-08EBD38945'; // GA4 Google tag (gtag.js)
 
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();
@@ -82,6 +83,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','${GTM_ID}');`}
         </Script>
         {/* End Google Tag Manager */}
+        {/* Google tag (gtag.js) — GA4 direct install */}
+        <Script
+          id="ga-gtag-src"
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="ga-gtag-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`}
+        </Script>
+        {/* End Google tag */}
       </body>
     </html>
   );
