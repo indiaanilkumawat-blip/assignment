@@ -75,10 +75,12 @@ export type SectionData = {
   marginLeft: number;
   marginRight: number;
   maxWidth: number;
-  // Media fields — used only by the 'gif' section (Cloudinary-hosted banner).
+  // Media fields — used only by the 'gif' section (Cloudinary-hosted GIF used
+  // as the HERO BACKGROUND).
   mediaUrl?: string;      // Cloudinary secure delivery URL
   mediaPublicId?: string; // Cloudinary public_id (needed to delete/replace)
-  mediaHeight?: number;   // rendered height in px on the live site
+  mediaHeight?: number;   // (legacy) kept for compatibility; unused as background
+  mediaOverlay?: number;  // 0–90 — darkness % of the overlay so hero text stays readable
 };
 
 /* Which sections pull their list items from the Content tab. The rest are
@@ -107,7 +109,7 @@ export const DEFAULT_SECTIONS: SectionData[] = [
   { key: 'cta',           label: 'Call To Action',       order: 7, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 900,  tag: '', heading: '', subheading: '' },
   { key: 'reviews',       label: 'Reviews',              order: 8, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 1280, tag: '', heading: '', subheading: '' },
   { key: 'faq',           label: 'FAQ',                  order: 9, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 768,  tag: '', heading: '', subheading: '' },
-  { key: 'gif',           label: 'GIF Banner',           order: 10, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 1100, tag: '', heading: '', subheading: '', mediaUrl: '', mediaPublicId: '', mediaHeight: 380 },
+  { key: 'gif',           label: 'Hero Background GIF',  order: 10, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 1100, tag: '', heading: '', subheading: '', mediaUrl: '', mediaPublicId: '', mediaHeight: 380, mediaOverlay: 55 },
 ];
 
 // Suggested copy shown ONLY as greyed-out placeholders in the admin Sections

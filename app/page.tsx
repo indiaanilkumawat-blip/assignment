@@ -108,16 +108,32 @@ export default async function HomePage() {
       case 'hero': {
         const heading = fill(sec.heading, settings);
         const [headMain, headAccent] = heading.split('|').map((t) => t.trim());
+        // Hero background GIF is stored on the 'gif' section (Admin → GIF tab).
+        const gifSec = sections.find((s) => s.key === 'gif');
+        const heroGif = gifSec && gifSec.enabled ? (gifSec.mediaUrl || '') : '';
+        const overlay = gifSec && typeof gifSec.mediaOverlay === 'number' ? gifSec.mediaOverlay : 55;
+        const ov = Math.max(0, Math.min(90, overlay)) / 100;
         return (
           <section key={sec.key} id="hero" style={{
             minHeight: '100vh',
             background: 'linear-gradient(150deg, #0f2137 0%, #1a3a5c 55%, #1e4a7a 100%)',
             paddingTop: 140, paddingBottom: 90, position: 'relative', overflow: 'hidden',
           }}>
-            <div style={{ position: 'absolute', top: -200, right: -200, width: 700, height: 700, borderRadius: '50%', background: 'rgba(37,99,168,0.15)', pointerEvents: 'none', filter: 'blur(60px)' }} />
-            <div style={{ position: 'absolute', bottom: -100, left: -150, width: 500, height: 500, borderRadius: '50%', background: 'rgba(232,160,32,0.08)', pointerEvents: 'none', filter: 'blur(60px)' }} />
-            <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-            <div style={box(sec)}>
+            {/* Animated GIF background (admin-uploaded). Sits behind everything;
+                a dark overlay on top keeps the hero text readable. */}
+            {heroGif && (
+              <>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={heroGif} alt="" aria-hidden="true"
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none',
+                  background: `linear-gradient(150deg, rgba(15,33,55,${ov + 0.15}) 0%, rgba(26,58,92,${ov}) 55%, rgba(30,74,122,${ov}) 100%)` }} />
+              </>
+            )}
+            <div style={{ position: 'absolute', top: -200, right: -200, width: 700, height: 700, borderRadius: '50%', background: 'rgba(37,99,168,0.15)', pointerEvents: 'none', filter: 'blur(60px)', zIndex: 1 }} />
+            <div style={{ position: 'absolute', bottom: -100, left: -150, width: 500, height: 500, borderRadius: '50%', background: 'rgba(232,160,32,0.08)', pointerEvents: 'none', filter: 'blur(60px)', zIndex: 1 }} />
+            <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '60px 60px', zIndex: 1 }} />
+            <div style={{ ...box(sec), position: 'relative', zIndex: 2 }}>
               <div className={`grid grid-cols-1 gap-12 lg:gap-16 items-center${stats.length ? ' lg:grid-cols-2' : ''}`}>
                 <div className="animate-fadeUp">
                   {sec.tag && (
@@ -391,59 +407,11 @@ export default async function HomePage() {
         );
       }
 
-      /* ── GIF BANNER ── admin-uploaded Cloudinary GIF on the site's dark navy
-         theme (matches hero/CTA). Height/width are admin-controlled. */
-      case 'gif': {
-        if (!sec.mediaUrl) return null; // nothing uploaded yet → render nothing
-        const h = sec.mediaHeight && sec.mediaHeight >= 100 ? sec.mediaHeight : 380;
-        const gifHeading = fill(sec.heading, settings);
-        const gifSub = fill(sec.subheading, settings);
-        return (
-          <section key={sec.key} id="gif-banner" style={{
-            background: 'linear-gradient(150deg, #0f2137 0%, #1a3a5c 55%, #1e4a7a 100%)',
-            padding: '84px 0', position: 'relative', overflow: 'hidden',
-          }}>
-            {/* Same ambient glows + grid the hero uses, so it reads as one system. */}
-            <div style={{ position: 'absolute', top: -160, right: -160, width: 560, height: 560, borderRadius: '50%', background: 'rgba(37,99,168,0.15)', filter: 'blur(60px)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', bottom: -120, left: -120, width: 440, height: 440, borderRadius: '50%', background: 'rgba(232,160,32,0.08)', filter: 'blur(60px)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-
-            <div style={{ ...box(sec), position: 'relative' }}>
-              {(sec.tag || gifHeading || gifSub) && (
-                <div style={{ textAlign: 'center', marginBottom: 40 }}>
-                  {sec.tag && (
-                    <div style={{ display: 'inline-block', padding: '7px 16px', borderRadius: 999, background: 'rgba(232,160,32,0.14)', border: '1px solid rgba(232,160,32,0.35)', color: 'var(--accent-light)', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 18 }}>
-                      {sec.tag}
-                    </div>
-                  )}
-                  {gifHeading && (
-                    <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 4vw, 46px)', fontWeight: 700, color: 'white', marginBottom: 12, letterSpacing: '-0.01em' }}>
-                      {gifHeading}
-                    </h2>
-                  )}
-                  {gifSub && (
-                    <p style={{ color: 'rgba(255,255,255,0.72)', maxWidth: 560, margin: '0 auto', fontSize: 16, lineHeight: 1.7 }}>
-                      {gifSub}
-                    </p>
-                  )}
-                </div>
-              )}
-
-              <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 24px 60px rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                {/* Plain <img> on purpose: next/image optimization can strip GIF
-                    animation frames; Cloudinary already serves it from a CDN. */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={sec.mediaUrl}
-                  alt={gifHeading || 'Promotional animation'}
-                  loading="lazy"
-                  style={{ display: 'block', width: '100%', height: h, objectFit: 'cover' }}
-                />
-              </div>
-            </div>
-          </section>
-        );
-      }
+      /* ── GIF ── Not rendered as its own section. The uploaded GIF is used as
+         the HERO background (see the 'hero' case above). This section row only
+         stores the media config, managed from Admin → GIF. */
+      case 'gif':
+        return null;
 
       default:
         return null;

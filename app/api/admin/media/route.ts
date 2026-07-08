@@ -28,8 +28,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       section: {
         _id: String(doc._id),
-        enabled: doc.enabled, heading: doc.heading, tag: doc.tag, subheading: doc.subheading,
-        maxWidth: doc.maxWidth, mediaHeight: doc.mediaHeight || 380,
+        enabled: doc.enabled,
+        mediaOverlay: typeof doc.mediaOverlay === 'number' ? doc.mediaOverlay : 55,
         mediaUrl: doc.mediaUrl || '', mediaPublicId: doc.mediaPublicId || '',
       },
       cloudinaryConfigured: configured,
@@ -79,12 +79,8 @@ export async function PUT(req: NextRequest) {
 
     if (typeof body.mediaUrl === 'string') doc.mediaUrl = body.mediaUrl;
     if (typeof body.mediaPublicId === 'string') doc.mediaPublicId = body.mediaPublicId;
-    if (typeof body.mediaHeight === 'number' && body.mediaHeight >= 100 && body.mediaHeight <= 1200) doc.mediaHeight = body.mediaHeight;
-    if (typeof body.maxWidth === 'number' && body.maxWidth >= 300 && body.maxWidth <= 1920) doc.maxWidth = body.maxWidth;
+    if (typeof body.mediaOverlay === 'number' && body.mediaOverlay >= 0 && body.mediaOverlay <= 90) doc.mediaOverlay = body.mediaOverlay;
     if (typeof body.enabled === 'boolean') doc.enabled = body.enabled;
-    if (typeof body.heading === 'string') doc.heading = body.heading;
-    if (typeof body.tag === 'string') doc.tag = body.tag;
-    if (typeof body.subheading === 'string') doc.subheading = body.subheading;
 
     await doc.save();
     revalidatePublic();

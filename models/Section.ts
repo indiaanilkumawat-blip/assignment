@@ -33,9 +33,10 @@ export interface ISection extends Document {
   marginLeft: number;   // px gutter from the left
   marginRight: number;  // px gutter from the right
   maxWidth: number;     // px max content width (centered inside the margins)
-  mediaUrl: string;       // Cloudinary secure URL (used only by key='gif')
+  mediaUrl: string;       // Cloudinary secure URL (hero background GIF)
   mediaPublicId: string;  // Cloudinary public_id (needed to delete/replace)
-  mediaHeight: number;    // rendered height in px on the live site
+  mediaHeight: number;    // legacy — retained for compatibility
+  mediaOverlay: number;   // 0–90 darkness % over the GIF so hero text stays readable
   createdAt: Date;
   updatedAt: Date;
 }
@@ -61,6 +62,7 @@ const SectionSchema = new Schema<ISection>(
     mediaUrl: { type: String, default: '' },
     mediaPublicId: { type: String, default: '' },
     mediaHeight: { type: Number, default: 380 },
+    mediaOverlay: { type: Number, default: 55 },
   },
   { timestamps: true }
 );
