@@ -116,7 +116,7 @@ export default async function HomePage() {
         return (
           <section key={sec.key} id="hero" style={{
             minHeight: '100vh',
-            background: 'linear-gradient(150deg, #0f2137 0%, #1a3a5c 55%, #1e4a7a 100%)',
+            background: 'var(--hero-grad)',
             paddingTop: 140, paddingBottom: 90, position: 'relative', overflow: 'hidden',
           }}>
             {/* Animated GIF background (admin-uploaded). Sits behind everything;
@@ -127,7 +127,7 @@ export default async function HomePage() {
                 <img src={heroGif} alt="" aria-hidden="true"
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, pointerEvents: 'none' }} />
                 <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none',
-                  background: `linear-gradient(150deg, rgba(15,33,55,${ov + 0.15}) 0%, rgba(26,58,92,${ov}) 55%, rgba(30,74,122,${ov}) 100%)` }} />
+                  background: `linear-gradient(150deg, rgba(var(--hero-rgb),${ov + 0.15}) 0%, rgba(var(--hero-rgb),${ov}) 100%)` }} />
               </>
             )}
             <div style={{ position: 'absolute', top: -200, right: -200, width: 700, height: 700, borderRadius: '50%', background: 'rgba(37,99,168,0.15)', pointerEvents: 'none', filter: 'blur(60px)', zIndex: 1 }} />
@@ -137,7 +137,7 @@ export default async function HomePage() {
               <div className={`grid grid-cols-1 gap-12 lg:gap-16 items-center${stats.length ? ' lg:grid-cols-2' : ''}`}>
                 <div className="animate-fadeUp">
                   {sec.tag && (
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 26, padding: '7px 18px', borderRadius: 100, background: 'rgba(232,160,32,0.15)', border: '1px solid rgba(232,160,32,0.35)', color: 'var(--accent)', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 26, padding: '7px 18px', borderRadius: 100, background: 'rgba(var(--accent-rgb),0.15)', border: '1px solid rgba(var(--accent-rgb),0.35)', color: 'var(--accent)', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                       🏆 {sec.tag}
                     </div>
                   )}
@@ -326,7 +326,7 @@ export default async function HomePage() {
         const subheading = fill(sec.subheading, settings);
         if (!heading && !subheading) return null;
         return (
-          <section key={sec.key} id="cta" style={{ background: 'linear-gradient(135deg, #0f2137 0%, #1a3a5c 60%, #1e4a7a 100%)', padding: '80px 0', position: 'relative', overflow: 'hidden' }}>
+          <section key={sec.key} id="cta" style={{ background: 'var(--hero-grad)', padding: '80px 0', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: -100, right: -100, width: 400, height: 400, borderRadius: '50%', background: 'rgba(232,160,32,0.07)', filter: 'blur(40px)', pointerEvents: 'none' }} />
             <div style={{ ...box(sec), textAlign: 'center' }}>
               {heading && (

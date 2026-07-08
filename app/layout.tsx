@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
 import { getSettings } from '@/lib/content';
+import { getTheme, themeCssVars } from '@/lib/themes';
 
 const GTM_ID = 'GTM-KBS32BXG';
 const GA_ID = 'G-08EBD38945'; // GA4 Google tag (gtag.js)
@@ -36,6 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const s = await getSettings(); // deduped by React cache() — same query as generateMetadata
   const base = (s.seo.siteUrl || '').replace(/\/$/, '');
+  const themeCss = themeCssVars(getTheme(s.theme));
 
   /* Organization schema — tells Google which logo to show in search results. */
   const orgJsonLd = base
@@ -51,6 +53,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <head>
+        {/* Active theme (admin-selected) — overrides the :root defaults in
+            globals.css. Placed first so component styles cascade over it. */}
+        <style dangerouslySetInnerHTML={{ __html: themeCss }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* display=swap → text renders immediately in the system fallback font. */}

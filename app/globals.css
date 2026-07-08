@@ -6,6 +6,8 @@
   --primary-light: #2563a8;
   --accent: #e8a020;
   --accent-light: #fbbf24;
+  --accent-ink: #0f2137;
+  --accent-rgb: 232,160,32;
   --bg: #f5f7fa;
   --bg-warm: #fdfaf6;
   --text: #0f2137;
@@ -13,6 +15,8 @@
   --border: #e2e8f0;
   --white: #ffffff;
   --green: #25d366;
+  --hero-grad: linear-gradient(150deg, #0f2137 0%, #1a3a5c 55%, #1e4a7a 100%);
+  --hero-rgb: 15,33,55;
   --card-shadow: 0 4px 32px rgba(15,33,55,0.08);
   /* Webfonts loaded in app/layout.tsx with display=swap; system fallbacks
      keep text visible while they load. */
@@ -52,9 +56,9 @@ h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.015em; }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(232,160,32,0.12);
-  color: #92620a;
-  border: 1px solid rgba(232,160,32,0.3);
+  background: rgba(var(--accent-rgb, 232,160,32),0.12);
+  color: var(--accent);
+  border: 1px solid rgba(var(--accent-rgb, 232,160,32),0.3);
   padding: 5px 14px;
   border-radius: 100px;
   font-size: 11px;
@@ -230,8 +234,8 @@ h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.015em; }
 .btn-sm    { padding: 13px 20px; font-size: 14px; border-radius: 12px; }
 .btn-block { width: 100%; }
 
-.btn-accent  { background: var(--accent); color: #0f2137; box-shadow: 0 8px 24px rgba(232,160,32,.35); }
-.btn-accent:hover  { box-shadow: 0 12px 30px rgba(232,160,32,.45); }
+.btn-accent  { background: var(--accent); color: var(--accent-ink, #0f2137); box-shadow: 0 8px 24px rgba(var(--accent-rgb, 232,160,32),.35); }
+.btn-accent:hover  { box-shadow: 0 12px 30px rgba(var(--accent-rgb, 232,160,32),.45); }
 .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 6px 20px rgba(15,33,55,.20); }
 .btn-primary:hover { box-shadow: 0 10px 28px rgba(15,33,55,.30); }
 .btn-wa      { background: var(--green); color: #fff; box-shadow: 0 6px 20px rgba(37,211,102,.30); }

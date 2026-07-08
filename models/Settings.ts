@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface ISettings extends Document {
   key: string; // always 'global' — singleton
+  theme: string; // selected theme key (see lib/themes.ts)
   siteName: string;
   tagline: string;
   phone: string;
@@ -51,6 +52,7 @@ export interface ISettings extends Document {
 const SettingsSchema = new Schema<ISettings>(
   {
     key: { type: String, default: 'global', unique: true },
+    theme: { type: String, default: 'midnight-gold' },
     siteName: { type: String, default: 'The Assignment Hub' },
     tagline: { type: String, default: 'Expert Academic Writing' },
     phone: { type: String, default: '+91-7357274693' },

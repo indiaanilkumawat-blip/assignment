@@ -171,7 +171,7 @@ export default function Navbar({
             <a href={waLink} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 16px', borderRadius: 10, fontSize: 13, fontWeight: 600, color: '#4ade80', background: 'rgba(37,211,102,0.12)', textDecoration: 'none', border: '1px solid rgba(37,211,102,0.28)' }}>
               💬 WhatsApp
             </a>
-            <Link href="/contact" style={{ padding: '10px 22px', borderRadius: 10, fontSize: 13, fontWeight: 700, background: 'var(--accent)', color: '#0f2137', textDecoration: 'none', boxShadow: '0 6px 18px rgba(232,160,32,0.35)' }}>
+            <Link href="/contact" style={{ padding: '10px 22px', borderRadius: 10, fontSize: 13, fontWeight: 700, background: 'var(--accent)', color: 'var(--accent-ink)', textDecoration: 'none', boxShadow: '0 6px 18px rgba(var(--accent-rgb),0.35)' }}>
               Get Help Now
             </Link>
           </div>
@@ -200,7 +200,7 @@ export default function Navbar({
                 💬 WhatsApp
               </a>
               <Link href="/contact" onClick={() => setMenuOpen(false)}
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '13px', background: 'var(--accent)', color: '#0f2137', textDecoration: 'none', borderRadius: 12, fontWeight: 700, fontSize: 14 }}>
+                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '13px', background: 'var(--accent)', color: 'var(--accent-ink)', textDecoration: 'none', borderRadius: 12, fontWeight: 700, fontSize: 14 }}>
                 Get Help &#8594;
               </Link>
             </div>

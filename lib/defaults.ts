@@ -6,6 +6,7 @@ export type { ContentType };
 export type HeroStat = { icon: string; number: string; label: string };
 
 export type SettingsData = {
+  theme: string;
   siteName: string;
   tagline: string;
   phone: string;
@@ -132,6 +133,7 @@ export const SECTION_HINTS: Record<SectionKey, { tag: string; heading: string; s
  * site renders identically even before any content is seeded.
  * ------------------------------------------------------------------ */
 export const DEFAULT_SETTINGS: SettingsData = {
+  theme: 'midnight-gold',
   siteName: 'The Assignment Hub',
   tagline: 'Expert Academic Writing',
   phone: '+91-7357274693',

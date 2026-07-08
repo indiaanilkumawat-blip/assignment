@@ -18,6 +18,7 @@ export { DEFAULT_SETTINGS, DEFAULT_CONTENT, DEFAULT_SECTIONS };
  * ------------------------------------------------------------------ */
 function toSettingsData(doc: ISettings): SettingsData {
   return {
+    theme: doc.theme || 'midnight-gold',
     siteName: doc.siteName, tagline: doc.tagline, phone: doc.phone, whatsapp: doc.whatsapp,
     email: doc.email, managerName: doc.managerName, supportHours: doc.supportHours,
     topStripText: doc.topStripText,
