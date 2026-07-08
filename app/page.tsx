@@ -126,8 +126,8 @@ export default async function HomePage() {
             {heroGif && (
               <>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={heroGif} alt="" aria-hidden="true"
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: gifPos, zIndex: 0, pointerEvents: 'none' }} />
+                <img src={heroGif} alt="" aria-hidden="true" className="hero-bg-gif"
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectPosition: gifPos, zIndex: 0, pointerEvents: 'none' }} />
                 <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none',
                   background: `linear-gradient(150deg, rgba(var(--hero-rgb),${ov + 0.15}) 0%, rgba(var(--hero-rgb),${ov}) 100%)` }} />
               </>
@@ -139,7 +139,7 @@ export default async function HomePage() {
               <div className={`grid grid-cols-1 gap-12 lg:gap-16 items-center${stats.length ? ' lg:grid-cols-2' : ''}`}>
                 <div className="animate-fadeUp">
                   {sec.tag && (
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 26, padding: '7px 18px', borderRadius: 100, background: 'rgba(var(--accent-rgb),0.15)', border: '1px solid rgba(var(--accent-rgb),0.35)', color: 'var(--accent)', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 26, padding: '9px 18px', borderRadius: 100, background: 'rgba(var(--accent-rgb),0.15)', border: '1px solid rgba(var(--accent-rgb),0.35)', color: 'var(--accent)', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', lineHeight: 1.6, whiteSpace: 'normal', maxWidth: '100%' }}>
                       🏆 {sec.tag}
                     </div>
                   )}

@@ -36,20 +36,34 @@ html { scroll-behavior: smooth; }
   padding-top: 140px;
   padding-bottom: 90px;
 }
+
+/* Hero background GIF: on phones a wide/landscape GIF forced into a tall
+   portrait box with object-fit:cover crops in hard and looks "zoomed".
+   Below 640px we switch to contain so the whole GIF stays visible
+   (letterboxed on the hero gradient), instead of cropping the subject. */
+.hero-bg-gif {
+  object-fit: cover;
+}
+@media (max-width: 640px) {
+  .hero-bg-gif {
+    object-fit: contain;
+    object-position: center top;
+  }
+}
 @supports (min-height: 100svh) {
   .hero-shell { min-height: 100svh; }
 }
 /* Tablet */
 @media (max-width: 1024px) {
-  .hero-shell { padding-top: 118px; padding-bottom: 72px; min-height: 92svh; }
+  .hero-shell { padding-top: 138px; padding-bottom: 72px; min-height: 92svh; }
 }
-/* Large phones */
+/* Large phones — extra clearance so the tag/badge never sits under the fixed navbar+phone-bar */
 @media (max-width: 640px) {
-  .hero-shell { padding-top: 96px; padding-bottom: 54px; min-height: 84svh; }
+  .hero-shell { padding-top: 150px; padding-bottom: 54px; min-height: 84svh; }
 }
 /* Small phones */
 @media (max-width: 400px) {
-  .hero-shell { padding-top: 88px; padding-bottom: 46px; min-height: 80svh; }
+  .hero-shell { padding-top: 150px; padding-bottom: 46px; min-height: 80svh; }
 }
 
 body {
