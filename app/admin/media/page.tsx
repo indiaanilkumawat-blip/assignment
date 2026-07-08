@@ -192,10 +192,15 @@ export default function AdminMediaPage() {
               )}
 
               {sec.mediaUrl ? (
-                <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid #e2e8f0', maxWidth: '100%' }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={sec.mediaUrl} alt="GIF banner preview"
-                    style={{ display: 'block', width: '100%', height: Math.min(sec.mediaHeight, 420), objectFit: 'cover' }} />
+                <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid #e2e8f0', maxWidth: '100%', background: 'linear-gradient(150deg, #0f2137 0%, #1a3a5c 55%, #1e4a7a 100%)', padding: 24 }}>
+                  <div style={{ borderRadius: 14, overflow: 'hidden', boxShadow: '0 20px 50px rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={sec.mediaUrl} alt="GIF banner preview"
+                      style={{ display: 'block', width: '100%', height: Math.min(sec.mediaHeight, 420), objectFit: 'cover' }} />
+                  </div>
+                  <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.55)', fontSize: 11.5, marginTop: 12 }}>
+                    Preview on the site&apos;s dark theme (matches the hero section)
+                  </p>
                 </div>
               ) : (
                 <div style={{ border: '2px dashed #cbd5e1', borderRadius: 12, padding: '48px 20px', textAlign: 'center', color: '#94a3b8', fontSize: 14 }}>

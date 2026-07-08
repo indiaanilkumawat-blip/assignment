@@ -391,22 +391,51 @@ export default async function HomePage() {
         );
       }
 
-      /* ── GIF BANNER ── admin-uploaded Cloudinary GIF, admin-set height/width. */
+      /* ── GIF BANNER ── admin-uploaded Cloudinary GIF on the site's dark navy
+         theme (matches hero/CTA). Height/width are admin-controlled. */
       case 'gif': {
         if (!sec.mediaUrl) return null; // nothing uploaded yet → render nothing
         const h = sec.mediaHeight && sec.mediaHeight >= 100 ? sec.mediaHeight : 380;
+        const gifHeading = fill(sec.heading, settings);
+        const gifSub = fill(sec.subheading, settings);
         return (
-          <section key={sec.key} id="gif-banner" style={{ padding: '72px 0', background: 'white' }}>
-            <div style={box(sec)}>
-              <SectionHeading sec={sec} settings={settings} />
-              <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 12px 40px rgba(15,33,55,0.14)', border: '1px solid var(--border)' }}>
+          <section key={sec.key} id="gif-banner" style={{
+            background: 'linear-gradient(150deg, #0f2137 0%, #1a3a5c 55%, #1e4a7a 100%)',
+            padding: '84px 0', position: 'relative', overflow: 'hidden',
+          }}>
+            {/* Same ambient glows + grid the hero uses, so it reads as one system. */}
+            <div style={{ position: 'absolute', top: -160, right: -160, width: 560, height: 560, borderRadius: '50%', background: 'rgba(37,99,168,0.15)', filter: 'blur(60px)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', bottom: -120, left: -120, width: 440, height: 440, borderRadius: '50%', background: 'rgba(232,160,32,0.08)', filter: 'blur(60px)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+
+            <div style={{ ...box(sec), position: 'relative' }}>
+              {(sec.tag || gifHeading || gifSub) && (
+                <div style={{ textAlign: 'center', marginBottom: 40 }}>
+                  {sec.tag && (
+                    <div style={{ display: 'inline-block', padding: '7px 16px', borderRadius: 999, background: 'rgba(232,160,32,0.14)', border: '1px solid rgba(232,160,32,0.35)', color: 'var(--accent-light)', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 18 }}>
+                      {sec.tag}
+                    </div>
+                  )}
+                  {gifHeading && (
+                    <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 4vw, 46px)', fontWeight: 700, color: 'white', marginBottom: 12, letterSpacing: '-0.01em' }}>
+                      {gifHeading}
+                    </h2>
+                  )}
+                  {gifSub && (
+                    <p style={{ color: 'rgba(255,255,255,0.72)', maxWidth: 560, margin: '0 auto', fontSize: 16, lineHeight: 1.7 }}>
+                      {gifSub}
+                    </p>
+                  )}
+                </div>
+              )}
+
+              <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 24px 60px rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 {/* Plain <img> on purpose: next/image optimization can strip GIF
-                    animation frames; Cloudinary already serves it from a CDN.
-                    eslint-disable-next-line @next/next/no-img-element */}
+                    animation frames; Cloudinary already serves it from a CDN. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={sec.mediaUrl}
-                  alt={fill(sec.heading, settings) || 'Promotional animation'}
+                  alt={gifHeading || 'Promotional animation'}
                   loading="lazy"
                   style={{ display: 'block', width: '100%', height: h, objectFit: 'cover' }}
                 />
