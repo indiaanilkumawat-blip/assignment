@@ -37,6 +37,7 @@ export interface ISection extends Document {
   mediaPublicId: string;  // Cloudinary public_id (needed to delete/replace)
   mediaHeight: number;    // legacy — retained for compatibility
   mediaOverlay: number;   // 0–90 darkness % over the GIF so hero text stays readable
+  mediaPosition: string;  // object-position focal point (center/top/bottom/left/right)
   createdAt: Date;
   updatedAt: Date;
 }
@@ -63,6 +64,7 @@ const SectionSchema = new Schema<ISection>(
     mediaPublicId: { type: String, default: '' },
     mediaHeight: { type: Number, default: 380 },
     mediaOverlay: { type: Number, default: 55 },
+    mediaPosition: { type: String, default: 'center' },
   },
   { timestamps: true }
 );

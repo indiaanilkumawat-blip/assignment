@@ -30,6 +30,7 @@ export async function GET(req: NextRequest) {
         _id: String(doc._id),
         enabled: doc.enabled,
         mediaOverlay: typeof doc.mediaOverlay === 'number' ? doc.mediaOverlay : 55,
+        mediaPosition: doc.mediaPosition || 'center',
         mediaUrl: doc.mediaUrl || '', mediaPublicId: doc.mediaPublicId || '',
       },
       cloudinaryConfigured: configured,
@@ -80,6 +81,7 @@ export async function PUT(req: NextRequest) {
     if (typeof body.mediaUrl === 'string') doc.mediaUrl = body.mediaUrl;
     if (typeof body.mediaPublicId === 'string') doc.mediaPublicId = body.mediaPublicId;
     if (typeof body.mediaOverlay === 'number' && body.mediaOverlay >= 0 && body.mediaOverlay <= 90) doc.mediaOverlay = body.mediaOverlay;
+    if (typeof body.mediaPosition === 'string' && ['center', 'top', 'bottom', 'left', 'right'].includes(body.mediaPosition)) doc.mediaPosition = body.mediaPosition;
     if (typeof body.enabled === 'boolean') doc.enabled = body.enabled;
 
     await doc.save();

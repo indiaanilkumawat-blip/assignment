@@ -28,6 +28,30 @@
 
 html { scroll-behavior: smooth; }
 
+/* Responsive hero shell. Fixed inline padding was replaced by this class so the
+   hero (and its GIF background) auto-fits phones and tablets. min-height uses
+   svh where supported so mobile browser chrome doesn't cause a jump. */
+.hero-shell {
+  min-height: 100vh;
+  padding-top: 140px;
+  padding-bottom: 90px;
+}
+@supports (min-height: 100svh) {
+  .hero-shell { min-height: 100svh; }
+}
+/* Tablet */
+@media (max-width: 1024px) {
+  .hero-shell { padding-top: 118px; padding-bottom: 72px; min-height: 92svh; }
+}
+/* Large phones */
+@media (max-width: 640px) {
+  .hero-shell { padding-top: 96px; padding-bottom: 54px; min-height: 84svh; }
+}
+/* Small phones */
+@media (max-width: 400px) {
+  .hero-shell { padding-top: 88px; padding-bottom: 46px; min-height: 80svh; }
+}
+
 body {
   font-family: var(--font-body);
   background: var(--bg);

@@ -17,6 +17,7 @@ type GifSection = {
   _id: string;
   enabled: boolean;
   mediaOverlay: number;
+  mediaPosition: string;
   mediaUrl: string;
   mediaPublicId: string;
 };
@@ -102,7 +103,7 @@ export default function AdminMediaPage() {
     setSaving(true); setMsg('');
     const res = await fetch('/api/admin/media', {
       method: 'PUT', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ enabled: sec.enabled, mediaOverlay: Number(sec.mediaOverlay) }),
+      body: JSON.stringify({ enabled: sec.enabled, mediaOverlay: Number(sec.mediaOverlay), mediaPosition: sec.mediaPosition || 'center' }),
     });
     if (res.status === 401) { router.push('/admin/login'); return; }
     setSaving(false);
@@ -180,7 +181,7 @@ export default function AdminMediaPage() {
                 {sec.mediaUrl && (
                   <>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={sec.mediaUrl} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={sec.mediaUrl} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: sec.mediaPosition || 'center' }} />
                     <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(150deg, rgba(15,33,55,${ov + 0.15}), rgba(30,74,122,${ov}))` }} />
                   </>
                 )}
@@ -220,6 +221,27 @@ export default function AdminMediaPage() {
                   <input type="checkbox" checked={sec.enabled} onChange={(e) => upd('enabled', e.target.checked)} />
                   Use GIF as hero background {sec.enabled ? '(on)' : '(off — shows gradient)'}
                 </label>
+
+                <div style={{ marginTop: 20 }}>
+                  <label style={lbl}>Focal point (which part stays visible on phones/tablets)</label>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    {['top', 'center', 'bottom', 'left', 'right'].map((pos) => (
+                      <button key={pos} onClick={() => upd('mediaPosition', pos)}
+                        style={{
+                          padding: '8px 16px', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                          textTransform: 'capitalize',
+                          border: (sec.mediaPosition || 'center') === pos ? '2px solid #2563a8' : '1.5px solid #e2e8f0',
+                          background: (sec.mediaPosition || 'center') === pos ? '#eff6ff' : 'white',
+                          color: (sec.mediaPosition || 'center') === pos ? '#1a3a5c' : '#475569',
+                        }}>
+                        {pos}
+                      </button>
+                    ))}
+                  </div>
+                  <p style={{ fontSize: 11.5, color: '#94a3b8', marginTop: 6 }}>
+                    On narrow phone screens a wide GIF gets cropped. This picks which edge/center to keep in view.
+                  </p>
+                </div>
 
                 <div>
                   <button onClick={saveSettings} disabled={saving}

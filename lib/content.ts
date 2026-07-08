@@ -79,6 +79,7 @@ export const getSections = cache(async (): Promise<SectionData[]> => {
       marginLeft: d.marginLeft, marginRight: d.marginRight, maxWidth: d.maxWidth,
       mediaUrl: d.mediaUrl || '', mediaPublicId: d.mediaPublicId || '',
       mediaHeight: d.mediaHeight || 380, mediaOverlay: typeof d.mediaOverlay === 'number' ? d.mediaOverlay : 55,
+      mediaPosition: d.mediaPosition || 'center',
     }));
   } catch {
     return DEFAULT_SECTIONS;

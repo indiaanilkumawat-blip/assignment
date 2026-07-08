@@ -113,19 +113,21 @@ export default async function HomePage() {
         const heroGif = gifSec && gifSec.enabled ? (gifSec.mediaUrl || '') : '';
         const overlay = gifSec && typeof gifSec.mediaOverlay === 'number' ? gifSec.mediaOverlay : 55;
         const ov = Math.max(0, Math.min(90, overlay)) / 100;
+        const gifPos = (gifSec && gifSec.mediaPosition) || 'center';
         return (
-          <section key={sec.key} id="hero" style={{
-            minHeight: '100vh',
+          <section key={sec.key} id="hero" className="hero-shell" style={{
             background: 'var(--hero-grad)',
-            paddingTop: 140, paddingBottom: 90, position: 'relative', overflow: 'hidden',
+            position: 'relative', overflow: 'hidden',
           }}>
             {/* Animated GIF background (admin-uploaded). Sits behind everything;
-                a dark overlay on top keeps the hero text readable. */}
+                a dark overlay on top keeps the hero text readable.
+                object-fit:cover + object-position keeps the chosen focal area
+                visible when the screen crops the GIF on phones/tablets. */}
             {heroGif && (
               <>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={heroGif} alt="" aria-hidden="true"
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, pointerEvents: 'none' }} />
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: gifPos, zIndex: 0, pointerEvents: 'none' }} />
                 <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none',
                   background: `linear-gradient(150deg, rgba(var(--hero-rgb),${ov + 0.15}) 0%, rgba(var(--hero-rgb),${ov}) 100%)` }} />
               </>
