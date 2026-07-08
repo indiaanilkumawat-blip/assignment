@@ -76,6 +76,8 @@ export const getSections = cache(async (): Promise<SectionData[]> => {
       key: d.key, label: d.label, enabled: d.enabled, order: d.order,
       tag: d.tag, heading: d.heading, subheading: d.subheading,
       marginLeft: d.marginLeft, marginRight: d.marginRight, maxWidth: d.maxWidth,
+      mediaUrl: d.mediaUrl || '', mediaPublicId: d.mediaPublicId || '',
+      mediaHeight: d.mediaHeight || 380,
     }));
   } catch {
     return DEFAULT_SECTIONS;

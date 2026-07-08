@@ -391,6 +391,31 @@ export default async function HomePage() {
         );
       }
 
+      /* ── GIF BANNER ── admin-uploaded Cloudinary GIF, admin-set height/width. */
+      case 'gif': {
+        if (!sec.mediaUrl) return null; // nothing uploaded yet → render nothing
+        const h = sec.mediaHeight && sec.mediaHeight >= 100 ? sec.mediaHeight : 380;
+        return (
+          <section key={sec.key} id="gif-banner" style={{ padding: '72px 0', background: 'white' }}>
+            <div style={box(sec)}>
+              <SectionHeading sec={sec} settings={settings} />
+              <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 12px 40px rgba(15,33,55,0.14)', border: '1px solid var(--border)' }}>
+                {/* Plain <img> on purpose: next/image optimization can strip GIF
+                    animation frames; Cloudinary already serves it from a CDN.
+                    eslint-disable-next-line @next/next/no-img-element */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={sec.mediaUrl}
+                  alt={fill(sec.heading, settings) || 'Promotional animation'}
+                  loading="lazy"
+                  style={{ display: 'block', width: '100%', height: h, objectFit: 'cover' }}
+                />
+              </div>
+            </div>
+          </section>
+        );
+      }
+
       default:
         return null;
     }

@@ -6,7 +6,7 @@ import { isAuthed } from '@/lib/auth';
 import { DEFAULT_SECTIONS } from '@/lib/defaults';
 
 // Editable fields only — `key` is immutable (it maps to a code render block).
-const EDITABLE = ['label', 'enabled', 'order', 'tag', 'heading', 'subheading', 'marginLeft', 'marginRight', 'maxWidth'] as const;
+const EDITABLE = ['label', 'enabled', 'order', 'tag', 'heading', 'subheading', 'marginLeft', 'marginRight', 'maxWidth', 'mediaUrl', 'mediaPublicId', 'mediaHeight'] as const;
 
 function pick(src: Record<string, unknown>) {
   const out: Record<string, unknown> = {};

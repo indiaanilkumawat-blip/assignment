@@ -61,7 +61,7 @@ export function serviceHref(s: { slug?: string; title: string }): string {
 
 export type SectionKey =
   | 'hero' | 'domains' | 'services' | 'how-it-works'
-  | 'about' | 'business-info' | 'cta' | 'reviews' | 'faq';
+  | 'about' | 'business-info' | 'cta' | 'reviews' | 'faq' | 'gif';
 
 export type SectionData = {
   _id?: string;
@@ -75,6 +75,10 @@ export type SectionData = {
   marginLeft: number;
   marginRight: number;
   maxWidth: number;
+  // Media fields — used only by the 'gif' section (Cloudinary-hosted banner).
+  mediaUrl?: string;      // Cloudinary secure delivery URL
+  mediaPublicId?: string; // Cloudinary public_id (needed to delete/replace)
+  mediaHeight?: number;   // rendered height in px on the live site
 };
 
 /* Which sections pull their list items from the Content tab. The rest are
@@ -103,6 +107,7 @@ export const DEFAULT_SECTIONS: SectionData[] = [
   { key: 'cta',           label: 'Call To Action',       order: 7, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 900,  tag: '', heading: '', subheading: '' },
   { key: 'reviews',       label: 'Reviews',              order: 8, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 1280, tag: '', heading: '', subheading: '' },
   { key: 'faq',           label: 'FAQ',                  order: 9, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 768,  tag: '', heading: '', subheading: '' },
+  { key: 'gif',           label: 'GIF Banner',           order: 10, enabled: true, marginLeft: 20, marginRight: 20, maxWidth: 1100, tag: '', heading: '', subheading: '', mediaUrl: '', mediaPublicId: '', mediaHeight: 380 },
 ];
 
 // Suggested copy shown ONLY as greyed-out placeholders in the admin Sections
@@ -117,6 +122,7 @@ export const SECTION_HINTS: Record<SectionKey, { tag: string; heading: string; s
   'cta':           { tag: '', heading: 'Ready to Get the Grade You Deserve?', subheading: 'Join {assignments} students who trust {siteName}.' },
   'reviews':       { tag: 'Student Reviews', heading: 'What Our Students Say', subheading: 'Rated by thousands of verified students' },
   'faq':           { tag: 'FAQ', heading: 'Frequently Asked Questions', subheading: '' },
+  'gif':           { tag: '', heading: 'See Us In Action', subheading: '' },
 };
 
 /* ------------------------------------------------------------------ *

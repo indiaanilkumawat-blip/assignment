@@ -19,7 +19,8 @@ export type SectionKey =
   | 'business-info'
   | 'cta'
   | 'reviews'
-  | 'faq';
+  | 'faq'
+  | 'gif';
 
 export interface ISection extends Document {
   key: SectionKey;
@@ -32,6 +33,9 @@ export interface ISection extends Document {
   marginLeft: number;   // px gutter from the left
   marginRight: number;  // px gutter from the right
   maxWidth: number;     // px max content width (centered inside the margins)
+  mediaUrl: string;       // Cloudinary secure URL (used only by key='gif')
+  mediaPublicId: string;  // Cloudinary public_id (needed to delete/replace)
+  mediaHeight: number;    // rendered height in px on the live site
   createdAt: Date;
   updatedAt: Date;
 }
@@ -40,7 +44,7 @@ const SectionSchema = new Schema<ISection>(
   {
     key: {
       type: String,
-      enum: ['hero', 'domains', 'services', 'how-it-works', 'about', 'business-info', 'cta', 'reviews', 'faq'],
+      enum: ['hero', 'domains', 'services', 'how-it-works', 'about', 'business-info', 'cta', 'reviews', 'faq', 'gif'],
       required: true,
       unique: true,
       index: true,
@@ -54,6 +58,9 @@ const SectionSchema = new Schema<ISection>(
     marginLeft: { type: Number, default: 20 },
     marginRight: { type: Number, default: 20 },
     maxWidth: { type: Number, default: 1280 },
+    mediaUrl: { type: String, default: '' },
+    mediaPublicId: { type: String, default: '' },
+    mediaHeight: { type: Number, default: 380 },
   },
   { timestamps: true }
 );

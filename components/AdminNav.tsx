@@ -6,6 +6,7 @@ const TABS = [
   { key: 'inquiries', label: '📥 Inquiries', href: '/admin/dashboard' },
   { key: 'sections', label: '🧱 Sections', href: '/admin/sections' },
   { key: 'content', label: '🧩 Content', href: '/admin/content' },
+  { key: 'media', label: '🎞️ GIF', href: '/admin/media' },
   { key: 'pages', label: '📄 Pages', href: '/admin/pages' },
   { key: 'settings', label: '⚙️ Settings', href: '/admin/settings' },
   { key: 'password', label: '🔒 Password', href: '/admin/password' },
